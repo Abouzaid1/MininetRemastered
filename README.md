@@ -72,5 +72,3 @@ Mininet Remastered is built upon the foundation laid by the original Mininet pro
 
 vbnet
 Copy code
-
-Feel free to customize this template to fit your project's specific details and requirements!
