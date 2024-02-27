@@ -9,11 +9,11 @@ import {
 export default function Tools() {
   const size = 35
   const strokeWidth = 1.25
-  const iconClass = "text-primary"
-  const divIconClass = "p-2 px-3 my-2 flex items-center justify-center box-content rounded-[12px] hover:bg-secondary transition cursor-pointer"
+  const iconClass = "text-primary "
+  const divIconClass = "p-2 px-3 my-2 flex items-center justify-center box-content rounded-[12px] hover:bg-background transition cursor-pointer"
   return (
     <>
-      <div className='w-[75px] bg-background absolute left-[20px] rounded-[20px] top-[100px] overflow-hidden p-3'>
+      <div className='w-[75px] z-20 bg-secondary absolute left-[20px] rounded-[10px] top-[100px] overflow-hidden p-3'>
         <div className={divIconClass}>
           <TooltipProvider>
             <Tooltip>

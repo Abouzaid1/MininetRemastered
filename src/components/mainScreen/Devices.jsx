@@ -6,16 +6,30 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { addPc, getPc } from '@/slices/pcSlice';
+import { useDispatch, useSelector } from 'react-redux';
 export default function Devices() {
+    const dispatch = useDispatch()
+    // const pc = useSelector(state => state.pc)
     const size = 50
     const strokeWidth = 1
     const iconClass = "text-primary mx-2"
-    const divIconClass = "p-1 my-2 flex items-center justify-center transition-[0.2s] box-content h-[70px] w-[70px] rounded-[12px] mx-2 hover:bg-background bg-secondary transition cursor-pointer"
+    const divIconClass = "p-1 my-2 flex items-center justify-center transition-[0.2s] box-content h-[70px] w-[70px] hover:outline-dashed hover:outline-primary hover:outline-[2px] rounded-[28px] mx-2  hover:bg-secondary bg-background transition cursor-pointer"
+    const addHandler = () => {
+        const x = Math.floor(Math.random() * 1000)
+        const y = Math.floor(Math.random() * 1000)
+        const pc = {
+            name: "h1",
+            position: { x: x, y: y }
+        }
+        dispatch(addPc(pc))
+        setTimeout(() => { dispatch(getPc()) }, 1000)
+    }
     return (
         <>
             <div className='flex justify-center'>
-                <div className='px-4 bg-background flex absolute m-auto rounded-[20px] bottom-[20px] overflow-hidden p-1'>
-                    <div className={divIconClass}>
+                <div className='px-2 bg-secondary z-20 flex absolute m-auto rounded-[30px] bottom-[20px] overflow-hidden p-1'>
+                    <div className={divIconClass} onClick={addHandler}>
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger><Monitor className={iconClass} size={size} strokeWidth={strokeWidth} /></TooltipTrigger>

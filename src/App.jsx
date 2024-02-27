@@ -3,7 +3,7 @@ import MainScreen from "./pages/MainScreen"
 function App() {
   return (
     <>
-      <div className="dark bg-secondary h-[100vh]">
+      <div className="dark bg-background h-[100vh]">
 
         <MainScreen />
 
