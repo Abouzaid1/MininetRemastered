@@ -7,8 +7,8 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
-export default function PC(props) {
-    const { name, id,arrow } = props
+export default function Switch(props) {
+    const { name, id } = props
     const [position, setPosition] = useState({ x: 0, y: 100 });
     const [dragging, setDragging] = useState(false);
     // const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -27,13 +27,13 @@ export default function PC(props) {
         setDragging(false)
     }
     return (
-        <div key={id} id={arrow} className='absolute' onMouseMove={handleMouseMove} onMouseDown={getPosition} onMouseUpCapture={mouseUp} onMouseUp={mouseUp}
+        <div key={id} className='absolute' onMouseMove={handleMouseMove} onMouseDown={getPosition} onMouseUpCapture={mouseUp} onMouseUp={mouseUp}
             style={{ top: position.x, left: position.y }}
         >
             <div className={divIconClass}>
                 <TooltipProvider>
                     <Tooltip>
-                        <TooltipTrigger><Monitor className={iconClass} size={size} strokeWidth={strokeWidth} /></TooltipTrigger>
+                        <TooltipTrigger><RadioReceiver className={iconClass} size={size} strokeWidth={strokeWidth} /></TooltipTrigger>
                         <TooltipContent>
                             <p>{name}</p>
                         </TooltipContent>

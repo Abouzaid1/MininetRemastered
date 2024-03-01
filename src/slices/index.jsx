@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
+import topoSlice from "./topoSlice";
 import deviceSlice from "./slice";
-import pcSlice from "./pcSlice";
 export const myStore = configureStore({
     reducer: {
-        device:deviceSlice,
-        pc:pcSlice
+        topo: topoSlice,
+        device: deviceSlice
     }
 })
