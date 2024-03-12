@@ -11,7 +11,7 @@ import image from "../../assets/image (1).png"
 export default function NavBar() {
   return (
     <>
-      <div className='bg-secondary w-full py-4 px-5'>
+      <div className='bg-secondary w-full py-4 px-5 z-[10]'>
         <div className='flex justify-between items-center'>
           <div>
             <img src={image} className='w-[150px]' alt="" />

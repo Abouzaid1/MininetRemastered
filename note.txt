@@ -1,48 +1,20 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-const url = import.meta.env.VITE_APP_URL + `/pcs`
-export const getPc = createAsyncThunk("pcSlice/getPc", async () => {
-    const response = await axios.get(url);
-    return response.data;
-})
-export const addPc = createAsyncThunk("pcSlice/addPc", async (newPc) => {
-    const response = await axios.post(url, newPc);
-    return response.data;
-});
-export const deletePc = createAsyncThunk("pcSlice/deletePc", async (pcId) => {
-    await axios.delete(url + `/${pcId}`);
-    return pcId;
-});
-export const updatePc = createAsyncThunk("pcSlice/updatePc", async (updatedPc) => {
-    await axios.put(url + `/${updatedPc.id}`, updatedPc);
-    return updatedPc;
-});
+import React from 'react';
 
+const Line = ({ start, end, strokeColor, strokeWidth }) => {
+  const getPath = () => `M ${start.x} ${start.y} L ${end.x} ${end.y}`;
 
-const pcSlice = createSlice({
-    name: "data",
-    initialState: [],
-    reducers: {},
-    extraReducers: (builder) => {
-        builder.addCase(getPc.fulfilled, (state, action) => {
-            return action.payload
-        });
-        builder.addCase(addPc.fulfilled, (state, action) => {
-            state.unshift(action.payload);
-        });
-        builder.addCase(deletePc.fulfilled, (state, action) => {
-            return state.filter(pc => pc.id !== action.payload);
-        });
-        builder.addCase(updatePc.fulfilled, (state, action) => {
-            const updatedPcIndex = state.findIndex(
-                (pc) => pc.id === action.payload.id
-            );
-            if (updatedPcIndex !== -1) {
-                state[updatedPcIndex] = action.payload;
-            }
-        });
-    }
-})
+  return (
+    <svg width="100%" height="100%">
+      <line
+        x1={start.x}
+        y1={start.y}
+        x2={end.x}
+        y2={end.y}
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+      />
+    </svg>
+  );
+};
 
-export const { } = pcSlice.actions;
-export default pcSlice.reducer;    
+export default Line;

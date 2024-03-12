@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Server } from 'lucide-react';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Textarea } from "@/components/ui/textarea"
 
-export default function Controller(props) {
+export default function TextArea(props) {
     const { name, id, actionHandler } = props;
     const [position, setPosition] = useState({ x: 0, y: 100 });
     const [dragging, setDragging] = useState(false);
     const size = 50;
     const strokeWidth = 1;
     const iconClass = "text-primary mx-2";
-    const divIconClass = "p-1 my-2 flex items-center justify-center transition-[0.2s] box-content h-[70px] w-[70px] hover:outline-dashed hover:outline-primary hover:outline-[2px] rounded-[28px] mx-2  hover:bg-background bg-secondary transition cursor-pointer";
+    const divIconClass = "p-1 my-2 flex items-center justify-center transition-[0.2s] box-content h-[70px] hover:outline-dashed hover:outline-primary hover:outline-[2px] mx-2  hover:bg-background bg-secondary transition cursor-pointer";
 
     useEffect(() => {
         document.addEventListener('mousemove', handleMouseMove);
@@ -41,17 +35,9 @@ export default function Controller(props) {
 
     return (
         <div key={id} className='absolute' onMouseDown={getPosition} onClick={actionHandler}
-            style={{ top: position.x, left: position.y }}
-        >
-            <div className={divIconClass} id={id} >
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger><Server className={iconClass} size={size} strokeWidth={strokeWidth} /></TooltipTrigger>
-                        <TooltipContent>
-                            <p>{name}</p>
-                        </TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
+            style={{ top: position.x, left: position.y }}>
+            <div className={divIconClass}>
+                <Textarea />
             </div>
         </div>
     );

@@ -1,36 +1,49 @@
-import { Monitor, Laptop, Server, Router, Cable, ZoomOut, MailPlus, MailOpen, RadioReceiver } from 'lucide-react';
-import React, { useEffect, useState, useRef, useLayoutEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import { Monitor } from 'lucide-react';
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from "@/components/ui/tooltip"
-export default function PC(props) {
-    const { name, id,arrow } = props
+} from "@/components/ui/tooltip";
+
+export default function Controller(props) {
+    const { name, id , actionHandler } = props;
     const [position, setPosition] = useState({ x: 0, y: 100 });
     const [dragging, setDragging] = useState(false);
-    // const [offset, setOffset] = useState({ x: 0, y: 0 });
-    const size = 50
-    const strokeWidth = 1
-    const iconClass = "text-primary mx-2"
-    const divIconClass = "p-1 my-2 flex items-center justify-center transition-[0.2s] box-content h-[70px] w-[70px] hover:outline-dashed hover:outline-primary hover:outline-[2px] rounded-[28px] mx-2  hover:bg-background bg-secondary transition cursor-pointer"
-    const handleMouseMove = (e) => {
-        dragging ? setPosition({ x: e.clientY - 100, y: e.clientX - 50 }) : null
+    const size = 50;
+    const strokeWidth = 1;
+    const iconClass = "text-primary mx-2";
+    const divIconClass = "p-1 my-2 flex items-center justify-center transition-[0.2s] box-content h-[70px] w-[70px] hover:outline-dashed hover:outline-primary hover:outline-[2px] rounded-[28px] mx-2  hover:bg-background bg-secondary transition cursor-pointer";
 
-    }
-    const getPosition = (e) => {
-        setDragging(true)
-    }
-    const mouseUp = (e) => {
-        setDragging(false)
-    }
+    useEffect(() => {
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', mouseUp);
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', mouseUp);
+        };
+    }, [dragging]);
+
+    const handleMouseMove = (e) => {
+        if (dragging) {
+            setPosition({ x: e.clientY - 100, y: e.clientX - 50 });
+        }
+    };
+
+    const getPosition = () => {
+        setDragging(true);
+    };
+
+    const mouseUp = () => {
+        setDragging(false);
+    };
+
     return (
-        <div key={id} id={arrow} className='absolute' onMouseMove={handleMouseMove} onMouseDown={getPosition} onMouseUpCapture={mouseUp} onMouseUp={mouseUp}
-            style={{ top: position.x, left: position.y }}
+        <div key={id} className='absolute' onMouseDown={getPosition}
+            style={{ top: position.x, left: position.y }} onClick={actionHandler}
         >
-            <div className={divIconClass}>
+            <div className={divIconClass} id={id} >
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger><Monitor className={iconClass} size={size} strokeWidth={strokeWidth} /></TooltipTrigger>
@@ -41,6 +54,5 @@ export default function PC(props) {
                 </TooltipProvider>
             </div>
         </div>
-
-    )
+    );
 }
