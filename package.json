@@ -49,6 +49,8 @@
     "react-xarrows-copy": "^2.0.2",
     "react-xarrows-updated": "^1.0.3",
     "reactflow": "^11.10.4",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "sonner": "^1.4.3",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7"
