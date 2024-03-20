@@ -4,4 +4,4 @@ import { io } from 'socket.io-client';
 // const URL = 'http://localhost:3000';
 const URL = 'https://mininetremasteredserverside-4.onrender.com/';
 
-export const socket = io(URL);
+export const socket = io(URL, { transports: ['websocket', 'polling', 'flashsocket'] });
