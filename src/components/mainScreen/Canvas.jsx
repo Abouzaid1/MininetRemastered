@@ -25,13 +25,13 @@ export default function Canvas() {
     const [co, setCo] = useState();
     const [la, setLa] = useState();
     const [links, setLinks] = useState();
-    
+
     useEffect(() => {
         console.log(tool);
     }, [tool]);
 
     const topo = useSelector(state => state.topo);
-    
+
     useEffect(() => {
         setPc(topo.pcs);
         setSw(topo.sws);
@@ -62,7 +62,7 @@ export default function Canvas() {
 
     useEffect(() => {
         if (link.from != null && link.to != null) {
-            axios.post("http://localhost:4000/api/link", { link: link, topoId: "65def9f638ef056fe52852c1" }).then(response => {
+            axios.post("https://mininetremasteredserverside-4.onrender.com/api/link", { link: link, topoId: "65def9f638ef056fe52852c1" }).then(response => {
                 toast(response.data);
                 dispatch(getTopo("65def9f638ef056fe52852c1"));
             });
@@ -73,7 +73,7 @@ export default function Canvas() {
 
     const deleteHandler = (id) => {
         dispatch(deleteDevice(id));
-        setTimeout(() => { 
+        setTimeout(() => {
             dispatch(getTopo("65def9f638ef056fe52852c1"));
         }, 500);
     };
@@ -121,13 +121,13 @@ export default function Canvas() {
                         return (
                             <Xarrow
                                 key={`${item._id}`}
-                                start={item.link.from} 
-                                end={item.link.to} 
-                                lineColor="white" 
-                                headSize={0}  
+                                start={item.link.from}
+                                end={item.link.to}
+                                lineColor="white"
+                                headSize={0}
                                 strokeWidth={1}
-                                curveness={0} animation={1} 
-                            /> 
+                                curveness={0} animation={1}
+                            />
                         )
                     })
                 }
