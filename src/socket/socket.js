@@ -1,7 +1,5 @@
 import { io } from 'socket.io-client';
 
-// "undefined" means the URL will be computed from the `window.location` object
-// const URL = 'http://localhost:3000';
-const URL = 'https://mininetremasteredserverside-4.onrender.com/';
+const URL = import.meta.env.VITE_APP_URL
 
-export const socket = io(URL, { transports: ['websocket'] });
+export const socket = io("https://light-turquoise-cub.glitch.me/", { transports: ['websocket'] });
