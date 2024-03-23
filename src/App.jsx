@@ -8,9 +8,7 @@ function App() {
     socket.connect();
 
     // Clean up function to close the socket connection when the component unmounts
-    return () => {
-      socket.disconnect();
-    };
+    
   }, []);
   socket.on("mouseMove", (data) => {
     setMouse({ x: data.x, y: data.y });
