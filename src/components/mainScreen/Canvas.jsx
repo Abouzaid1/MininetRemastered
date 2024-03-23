@@ -59,10 +59,10 @@ export default function Canvas() {
             }
         }
     };
-
+const URL = import.meta.env.VITE_APP_URL
     useEffect(() => {
         if (link.from != null && link.to != null) {
-            axios.post("https://mininetremasteredserverside-4.onrender.com/api/link", { link: link, topoId: "65def9f638ef056fe52852c1" }).then(response => {
+            axios.post(URL+"/link", { link: link, topoId: "65def9f638ef056fe52852c1" }).then(response => {
                 toast(response.data);
                 dispatch(getTopo("65def9f638ef056fe52852c1"));
             });
