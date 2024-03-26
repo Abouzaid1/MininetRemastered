@@ -15,8 +15,8 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-  } from "@/components/ui/dialog"
-  import { toast } from "sonner";
+} from "@/components/ui/dialog"
+import { toast } from "sonner";
 import { useDispatch, useSelector } from 'react-redux';
 import { getTopo } from '@/slices/topoSlice';
 import { addDevice } from '@/slices/slice';
@@ -37,7 +37,7 @@ export default function Devices() {
         co: "",
         la: ""
     })
-    const tool = useSelector(state=>state.tool)
+    const tool = useSelector(state => state.tool)
     const dispatch = useDispatch()
     const size = 50
     const strokeWidth = 1
@@ -57,19 +57,20 @@ export default function Devices() {
             position: { x: 0, y: 0 },
             topoId: "65def9f638ef056fe52852c1"
         })
+        dispatch(getTopo("65def9f638ef056fe52852c1"))
     }
     useEffect(() => {
         if (device.type) {
-            if(device.name){
+            if (device.name) {
                 dispatch(addDevice(device))
                 setTimeout(() => { dispatch(getTopo("65def9f638ef056fe52852c1")) }, 500)
             }
-            else{
+            else {
                 toast("You need to write a host name");
             }
         }
     }, [device])
-    
+
     return (
         <>
             <div className='flex justify-center'>
@@ -91,11 +92,11 @@ export default function Devices() {
                             <DialogHeader>
                                 <DialogTitle className="text-[25px]">Write the host name?</DialogTitle>
                                 <DialogDescription >
-                                    <Input onChange={(e) => { handleChange(e) }} className="mb-8 mt-4" name="pc"   placeholder="It should be a number" />
+                                    <Input onChange={(e) => { handleChange(e) }} className="mb-8 mt-4" name="pc" placeholder="It should be a number" />
                                 </DialogDescription>
                                 <DialogClose asChild>
 
-                                <Button className="" onClick={() => addHandler(pc)}>Add PC</Button>
+                                    <Button className="" onClick={() => addHandler(pc)}>Add PC</Button>
                                 </DialogClose>
                             </DialogHeader>
                         </DialogContent>
@@ -117,11 +118,11 @@ export default function Devices() {
                             <DialogHeader>
                                 <DialogTitle className="text-[25px]">Write the host name?</DialogTitle>
                                 <DialogDescription >
-                                    <Input onChange={(e) => { handleChange(e) }} className="mb-8 mt-4" name="la"   placeholder="It should be a number" />
+                                    <Input onChange={(e) => { handleChange(e) }} className="mb-8 mt-4" name="la" placeholder="It should be a number" />
                                 </DialogDescription>
                                 <DialogClose asChild>
 
-                                <Button className="" onClick={() => addHandler(la)}>Add Laptop</Button>
+                                    <Button className="" onClick={() => addHandler(la)}>Add Laptop</Button>
                                 </DialogClose>
                             </DialogHeader>
                         </DialogContent>
@@ -147,7 +148,7 @@ export default function Devices() {
                                 </DialogDescription>
                                 <DialogClose asChild>
 
-                                <Button className="" onClick={() => addHandler(co)}>Add Controller</Button>
+                                    <Button className="" onClick={() => addHandler(co)}>Add Controller</Button>
                                 </DialogClose>
                             </DialogHeader>
                         </DialogContent>
@@ -169,11 +170,11 @@ export default function Devices() {
                             <DialogHeader>
                                 <DialogTitle className="text-[25px]">Write the host name?</DialogTitle>
                                 <DialogDescription >
-                                    <Input onChange={(e) => { handleChange(e) }} className="mb-8 mt-4" name="sw"   placeholder="It should be a number" />
+                                    <Input onChange={(e) => { handleChange(e) }} className="mb-8 mt-4" name="sw" placeholder="It should be a number" />
                                 </DialogDescription>
                                 <DialogClose asChild>
 
-                                <Button className="" onClick={() => addHandler(sw)}>Add Switch</Button>
+                                    <Button className="" onClick={() => addHandler(sw)}>Add Switch</Button>
                                 </DialogClose>
                             </DialogHeader>
                         </DialogContent>
@@ -195,16 +196,16 @@ export default function Devices() {
                             <DialogHeader>
                                 <DialogTitle className="text-[25px]">Write the host name?</DialogTitle>
                                 <DialogDescription >
-                                    <Input onChange={(e) => { handleChange(e) }} className="mb-8 mt-4" name="ro"   placeholder="It should be a number" />
+                                    <Input onChange={(e) => { handleChange(e) }} className="mb-8 mt-4" name="ro" placeholder="It should be a number" />
                                 </DialogDescription>
                                 <DialogClose asChild>
 
-                                <Button className="" onClick={() => addHandler(ro)}>Add Router</Button>
+                                    <Button className="" onClick={() => addHandler(ro)}>Add Router</Button>
                                 </DialogClose>
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>
-                    <div className={`${divIconClass} ${tool==="link"?"bg-secondary":""}`} onClick={()=>dispatch(getToolName("link"))}>
+                    <div className={`${divIconClass} ${tool === "link" ? "bg-secondary" : ""}`} onClick={() => dispatch(getToolName("link"))}>
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger><Cable className={iconClass} size={size} strokeWidth={strokeWidth} /></TooltipTrigger>

@@ -9,6 +9,7 @@ import {
 
 export default function Controller(props) {
     const { name, id, actionHandler } = props;
+    
     const [position, setPosition] = useState({ x: 0, y: 100 });
     const [dragging, setDragging] = useState(false);
     const size = 50;
