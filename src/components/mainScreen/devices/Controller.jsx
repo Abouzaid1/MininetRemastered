@@ -22,7 +22,10 @@ export default function Controller(props) {
         console.log(device);
     }, [])
     useEffect(() => {
-        setPosition({ x: device?.position?.x, y: device?.position?.y })
+        if (device._id === itemId) {
+
+            setPosition({ x: device?.position?.x, y: device?.position?.y })
+        }
     }, [device])
 
     const [dragging, setDragging] = useState(false);
@@ -51,7 +54,7 @@ export default function Controller(props) {
                 id: itemId,
                 position: {
                     x: e.clientY - 100,
-                    y: e.clientX - 50 
+                    y: e.clientX - 50
                 }
             })
         }
