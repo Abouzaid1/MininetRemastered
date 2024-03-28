@@ -25,6 +25,7 @@ export default function Controller(props) {
         if (device._id === itemId) {
 
             setPosition({ x: device?.position?.x, y: device?.position?.y })
+            console.log("jd");
         }
     }, [device])
 
