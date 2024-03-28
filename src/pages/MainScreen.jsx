@@ -11,7 +11,7 @@ export default function MainScreen() {
     const dispatch = useDispatch();
     const topo = useSelector(state => state.topo)
     useEffect(() => {
-        const topoId = "65eb3205a0299917158de221"
+        const topoId = "65def9f638ef056fe52852c1"
         dispatch(getTopo(topoId))
     }, [])
     return (

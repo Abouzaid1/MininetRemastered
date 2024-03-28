@@ -55,15 +55,15 @@ export default function Devices() {
             type: deviceType,
             name: hostName[deviceType],
             position: { x: 0, y: 0 },
-            topoId: "65eb3205a0299917158de221"
+            topoId: "65def9f638ef056fe52852c1"
         })
-        dispatch(getTopo("65eb3205a0299917158de221"))
+        dispatch(getTopo("65def9f638ef056fe52852c1"))
     }
     useEffect(() => {
         if (device.type) {
             if (device.name) {
                 dispatch(addDevice(device))
-                setTimeout(() => { dispatch(getTopo("65eb3205a0299917158de221")) }, 500)
+                setTimeout(() => { dispatch(getTopo("65def9f638ef056fe52852c1")) }, 500)
             }
             else {
                 toast("You need to write a host name");

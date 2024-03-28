@@ -40,7 +40,7 @@ export default function Canvas() {
         if (tool === "mouse") {
         } else if (tool === "delete") {
             deleteHandler(id);
-            dispatch(getTopo("65eb3205a0299917158de221"))
+            dispatch(getTopo("65def9f638ef056fe52852c1"))
             
         } else if (tool === "link") {
             linkHandler(name);
@@ -59,9 +59,9 @@ export default function Canvas() {
     const URL = import.meta.env.VITE_APP_URL
     useEffect(() => {
         if (link.from != null && link.to != null) {
-            axios.post(URL + "/link", { link: link, topoId: "65eb3205a0299917158de221" }).then(response => {
+            axios.post(URL + "/link", { link: link, topoId: "65def9f638ef056fe52852c1" }).then(response => {
                 toast(response.data);
-                dispatch(getTopo("65eb3205a0299917158de221"));
+                dispatch(getTopo("65def9f638ef056fe52852c1"));
             });
             setLink({ from: null, to: null });
             dispatch(getToolName("mouse"));
@@ -71,7 +71,7 @@ export default function Canvas() {
     const deleteHandler = (id) => {
         dispatch(deleteDevice(id));
         setTimeout(() => {
-            dispatch(getTopo("65eb3205a0299917158de221"));
+            dispatch(getTopo("65def9f638ef056fe52852c1"));
         }, 500);
     };
 
