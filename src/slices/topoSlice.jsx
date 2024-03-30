@@ -22,7 +22,8 @@ export const updateTopo = createAsyncThunk("topoSlice/updateTopo", async (update
 const topoSlice = createSlice({
     name: "data",
     initialState: [],
-    reducers: {},
+    reducers: {
+    },
     extraReducers: (builder) => {
         builder.addCase(getTopo.fulfilled, (state, action) => {
             return action.payload

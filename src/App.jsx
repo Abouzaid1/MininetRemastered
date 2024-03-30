@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react"
 import MainScreen from "./pages/MainScreen"
 import { socket } from './socket/socket';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import topoId from "./components/mainScreen/topoId";
+import { MousePointer2 } from 'lucide-react';
 function App() {
   const [mouse, setMouse] = useState({})
   useEffect(() => {
     // Establish socket connection when the component mounts
     socket.connect();
-
+    socket.emit('dataFromClient', { room: topoId, message: 'Hello from client!' });
     // Clean up function to close the socket connection when the component unmounts
-    
+
   }, []);
+
   socket.on("mouseMove", (data) => {
     setMouse({ x: data.x, y: data.y });
   })
@@ -32,11 +36,17 @@ function App() {
   }, []);
   return (
     <>
-      <div className="w-[50px] h-[50px] absolute bg-white z-[100]" style={{ top: `${mouse.y + 150}px`, left: `${mouse.x + 150}px` }}></div>
+      <div className="w-[50px] h-[50px] absolute  z-[100]" style={{ top: `${mouse.y + 150}px`, left: `${mouse.x + 150}px` }}>
+        <MousePointer2 color="white" />
+        <p className="text-white ">Abouzaid</p>
+
+      </div>
       <div className="dark bg-background h-[100vh]">
-
-        <MainScreen />
-
+        <Router>
+          <Routes>
+            <Route path="/65def9f638ef056fe52852c1" element={<MainScreen />} />
+          </Routes>
+        </Router>
       </div>
     </>
   )

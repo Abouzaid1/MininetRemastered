@@ -6,17 +6,18 @@ import Switch from './devices/Switch';
 import Routers from './devices/Routers';
 import Controller from './devices/Controller';
 import Laptops from './devices/Laptops';
-import Arrow, { DIRECTION } from 'react-arrows';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { deleteDevice } from '@/slices/slice';
 import { toast } from "sonner";
 import Xarrow, { useXarrow, Xwrapper } from 'react-xarrows';
 import axios from 'axios';
 import { getToolName } from '@/slices/toolSlice';
+import topoId from './topoId';
+import { socket } from '../../socket/socket';
 
 export default function Canvas() {
     const dispatch = useDispatch();
     const updateXarrow = useXarrow();
+    const [mouse, setMouse] = useState({})
     const tool = useSelector(state => state.tool);
     const [link, setLink] = useState({ from: null, to: null });
     const [pc, setPc] = useState();
@@ -28,6 +29,9 @@ export default function Canvas() {
 
     const topo = useSelector(state => state.topo);
     useEffect(() => {
+        dispatch(getTopo(topoId));
+    }, []);
+    useEffect(() => {
         setPc(topo.pcs);
         setSw(topo.sws);
         setRo(topo.routers);
@@ -35,13 +39,13 @@ export default function Canvas() {
         setLa(topo.laptops);
         setLinks(topo.links);
     }, [topo]);
-
+    
     const actionSelect = (id, name, type) => {
         if (tool === "mouse") {
         } else if (tool === "delete") {
             deleteHandler(id);
-            dispatch(getTopo("65def9f638ef056fe52852c1"))
-            
+            dispatch(getTopo(topoId))
+
         } else if (tool === "link") {
             linkHandler(name);
         }
@@ -59,9 +63,9 @@ export default function Canvas() {
     const URL = import.meta.env.VITE_APP_URL
     useEffect(() => {
         if (link.from != null && link.to != null) {
-            axios.post(URL + "/link", { link: link, topoId: "65def9f638ef056fe52852c1" }).then(response => {
+            axios.post(URL + "/link", { link: link, topoId: topoId }).then(response => {
                 toast(response.data);
-                dispatch(getTopo("65def9f638ef056fe52852c1"));
+                dispatch(getTopo(topoId));
             });
             setLink({ from: null, to: null });
             dispatch(getToolName("mouse"));
@@ -71,10 +75,29 @@ export default function Canvas() {
     const deleteHandler = (id) => {
         dispatch(deleteDevice(id));
         setTimeout(() => {
-            dispatch(getTopo("65def9f638ef056fe52852c1"));
+            dispatch(getTopo(topoId));
         }, 500);
     };
+    socket.on("deviceMove", (data) => {
+        setMouse({ x: data.x, y: data.y });
+    })
+    useEffect(() => {
+    const handleMouseMove = (event) => {
+      // Emit mouse movement data to the server
+      socket.emit("mouseMove", {
+        x: event.clientX - window.scrollX,
+        y: event.clientY - window.scrollY
+      });
+    };
 
+    // Add event listener for mousemove
+    window.addEventListener("mousemove", handleMouseMove);
+
+    // Cleanup function to remove event listener when component unmounts
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
     return (
         <div className={`bg-background w-full h-full absolute top-0 z-0${tool === "link" ? " cursor-crosshair" : ""} ${tool === "delete" ? "cursor-crosshair" : ""} ${tool === "addText" ? " cursor-text" : ""}`} >
             <div onMouseMove={updateXarrow} className='relative'>

@@ -7,11 +7,13 @@ import { RoomProvider } from '../../liveblocks.config';
 import { ClientSideSuspense } from "@liveblocks/react";
 import { useDispatch, useSelector } from 'react-redux'
 import { getTopo } from '@/slices/topoSlice'
+import topoId from '../components/mainScreen/topoId'
 export default function MainScreen() {
     const dispatch = useDispatch();
     const topo = useSelector(state => state.topo)
+
     useEffect(() => {
-        const topoId = "65def9f638ef056fe52852c1"
+
         dispatch(getTopo(topoId))
     }, [])
     return (

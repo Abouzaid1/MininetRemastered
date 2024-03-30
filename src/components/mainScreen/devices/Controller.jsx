@@ -9,6 +9,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { getDevice, updateDevice } from '@/slices/slice';
 import { getTopo } from '@/slices/topoSlice';
+import { socket } from '../../../socket/socket';
 
 export default function Controller(props) {
     const { itemId, name, id, actionHandler } = props;
@@ -23,9 +24,7 @@ export default function Controller(props) {
     }, [])
     useEffect(() => {
         if (device._id === itemId) {
-
             setPosition({ x: device?.position?.x, y: device?.position?.y })
-            console.log("jd");
         }
     }, [device])
 
@@ -37,15 +36,17 @@ export default function Controller(props) {
     useEffect(() => {
         document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('mouseup', mouseUp);
-        if (dragging == false) {
 
+        if (dragging == false) {
             dispatch(updateDevice(updatedDevice))
         }
+        socket.on("controllerMove", (data) => {
+            setPosition({ x: data.x, y: data.y });
+        })
         return () => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', mouseUp);
         };
-
     }, [dragging]);
 
     const handleMouseMove = (e) => {
@@ -57,19 +58,24 @@ export default function Controller(props) {
                     x: e.clientY - 100,
                     y: e.clientX - 50
                 }
+
             })
-        }
-
-    };
-
+            socket.emit("controllerMove", {
+                x: e.clientY - 100,
+                y: e.clientX - 50
+            });
+        };
+    }
     const getPosition = () => {
         setDragging(true);
+
+    };
+    const mouseUp = (e) => {
+        
+        setDragging(false)
+
     };
 
-    const mouseUp = (e) => {
-        setDragging(false)
-    };
-    // dispatch(getTopo("65def9f638ef056fe52852c1"))
 
     return (
         <div key={id} className='absolute' onMouseDown={getPosition} onClick={actionHandler}
