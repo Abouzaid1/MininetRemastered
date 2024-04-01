@@ -23,6 +23,8 @@ import { addDevice } from '@/slices/slice';
 import { Input } from "@/components/ui/input"
 import { Button } from '../ui/button';
 import { getToolName } from '@/slices/toolSlice';
+import axios from 'axios';
+import topoId from './topoId';
 export default function Devices() {
     const [device, setDevice] = useState({})
     const pc = "pc"
@@ -37,6 +39,7 @@ export default function Devices() {
         co: "",
         la: ""
     })
+    const url = import.meta.env.VITE_URL
     const tool = useSelector(state => state.tool)
     const dispatch = useDispatch()
     const size = 50
@@ -55,15 +58,17 @@ export default function Devices() {
             type: deviceType,
             name: hostName[deviceType],
             position: { x: 0, y: 0 },
-            topoId: "65def9f638ef056fe52852c1"
+            topoId: topoId
         })
-        dispatch(getTopo("65def9f638ef056fe52852c1"))
+
+        dispatch(getTopo(topoId))
     }
     useEffect(() => {
         if (device.type) {
             if (device.name) {
+                
                 dispatch(addDevice(device))
-                setTimeout(() => { dispatch(getTopo("65def9f638ef056fe52852c1")) }, 500)
+                setTimeout(() => { dispatch(getTopo(topoId)) }, 500)
             }
             else {
                 toast("You need to write a host name");

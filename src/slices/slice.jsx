@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "sonner";
 const url = import.meta.env.VITE_APP_URL + '/device'
 export const getDevice = createAsyncThunk("deviceSlice/getDevice", async (deviceId) => {
     const response = await axios.get(`${url}/${deviceId}`);
@@ -7,6 +8,7 @@ export const getDevice = createAsyncThunk("deviceSlice/getDevice", async (device
 })
 export const addDevice = createAsyncThunk("deviceSlice/addDevice", async (newDevice) => {
     const response = await axios.post(url, newDevice);
+    toast(response.data.msg);
     return response.data;
 });
 export const deleteDevice = createAsyncThunk("deviceSlice/deleteDevice", async (deviceId) => {

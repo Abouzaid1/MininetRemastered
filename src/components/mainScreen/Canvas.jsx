@@ -39,7 +39,7 @@ export default function Canvas() {
         setLa(topo.laptops);
         setLinks(topo.links);
     }, [topo]);
-    
+
     const actionSelect = (id, name, type) => {
         if (tool === "mouse") {
         } else if (tool === "delete") {
@@ -78,47 +78,27 @@ export default function Canvas() {
             dispatch(getTopo(topoId));
         }, 500);
     };
-    socket.on("deviceMove", (data) => {
-        setMouse({ x: data.x, y: data.y });
-    })
-    useEffect(() => {
-    const handleMouseMove = (event) => {
-      // Emit mouse movement data to the server
-      socket.emit("mouseMove", {
-        x: event.clientX - window.scrollX,
-        y: event.clientY - window.scrollY
-      });
-    };
-
-    // Add event listener for mousemove
-    window.addEventListener("mousemove", handleMouseMove);
-
-    // Cleanup function to remove event listener when component unmounts
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
     return (
-        <div className={`bg-background w-full h-full absolute top-0 z-0${tool === "link" ? " cursor-crosshair" : ""} ${tool === "delete" ? "cursor-crosshair" : ""} ${tool === "addText" ? " cursor-text" : ""}`} >
+        <div className={`bg-background w-full h-full absolute overflow-hidden top-0 z-0${tool === "link" ? " cursor-crosshair" : ""} ${tool === "delete" ? "cursor-crosshair" : ""} ${tool === "addText" ? " cursor-text" : ""}`} >
             <div onMouseMove={updateXarrow} className='relative'>
                 {
                     pc && pc.map((item) => {
                         return (
-                            <PC key={item._id} id={item.name} name={item.name} actionHandler={() => actionSelect(item._id, item.name, item.type)}></PC>
+                            <PC key={item._id} id={item.name} name={item.name} itemId={item._id} actionHandler={() => actionSelect(item._id, item.name, item.type)}></PC>
                         )
                     })
                 }
                 {
                     sw && sw.map((item) => {
                         return (
-                            <Switch key={item._id} id={item.name} name={item.name} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Switch>
+                            <Switch key={item._id} id={item.name} name={item.name} itemId={item._id} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Switch>
                         )
                     })
                 }
                 {
                     ro && ro.map((item) => {
                         return (
-                            <Routers key={item._id} id={item.name} name={item.name} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Routers>
+                            <Routers key={item._id} id={item.name} name={item.name} itemId={item._id} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Routers>
                         )
                     })
                 }
@@ -132,7 +112,7 @@ export default function Canvas() {
                 {
                     la && la.map((item) => {
                         return (
-                            <Laptops key={item._id} id={item.name} name={item.name} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Laptops>
+                            <Laptops key={item._id} id={item.name} name={item.name} itemId={item._id} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Laptops>
                         )
                     })
                 }
