@@ -25,6 +25,7 @@ import { Button } from '../ui/button';
 import { getToolName } from '@/slices/toolSlice';
 import axios from 'axios';
 import topoId from './topoId';
+import { socket } from '../../socket/socket';
 export default function Devices() {
     const [device, setDevice] = useState({})
     const pc = "pc"
@@ -66,9 +67,9 @@ export default function Devices() {
     useEffect(() => {
         if (device.type) {
             if (device.name) {
-                
                 dispatch(addDevice(device))
                 setTimeout(() => { dispatch(getTopo(topoId)) }, 500)
+                
             }
             else {
                 toast("You need to write a host name");

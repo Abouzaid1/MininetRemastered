@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getDevice, updateDevice } from '@/slices/slice';
 import { getTopo } from '@/slices/topoSlice';
 import { socket } from '../../../socket/socket';
+import { getToolName } from '@/slices/toolSlice';
 
 export default function Controller(props) {
     const { itemId, name, id, actionHandler } = props;
@@ -18,6 +19,7 @@ export default function Controller(props) {
     const dispatch = useDispatch();
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const device = useSelector(state => state.device);
+    const tool = useSelector(state => state.tool);
     const [dragging, setDragging] = useState(false);
     const size = 50;
     const strokeWidth = 1;
@@ -91,7 +93,7 @@ export default function Controller(props) {
     };
 
     return (
-        <div key={id} className='absolute' onMouseDown={getPosition} onClick={actionHandler}
+        <div key={id} className='absolute' onMouseDown={tool == "delete" ? actionHandler : getPosition} onClick={actionHandler}
             style={{ top: position.x, left: position.y }}
         >
             <div className={divIconClass} id={id} >

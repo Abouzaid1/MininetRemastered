@@ -27,10 +27,19 @@ export default function Canvas() {
     const [la, setLa] = useState();
     const [links, setLinks] = useState();
 
-    const topo = useSelector(state => state.topo);
+    const topoDevices = useSelector(state => state.topo);
+    const [topo, setTopo] = useState(topoDevices)
+    socket.on("topoChange", (data) => {
+        setTopo(data);
+    })
+
     useEffect(() => {
         dispatch(getTopo(topoId));
     }, []);
+    useEffect(() => {
+        dispatch(getTopo(topoId));
+    }, [tool]);
+
     useEffect(() => {
         setPc(topo.pcs);
         setSw(topo.sws);
@@ -41,16 +50,16 @@ export default function Canvas() {
     }, [topo]);
 
     const actionSelect = (id, name, type) => {
-        if (tool === "mouse") {
-        } else if (tool === "delete") {
-            deleteHandler(id);
-            dispatch(getTopo(topoId))
-
-        } else if (tool === "link") {
+        if (tool == "mouse") {
+        } else if (tool == "delete") {
+            dispatch(deleteDevice(id));
+            console.log("deletefinc");
+        } else if (tool == "link") {
             linkHandler(name);
+            console.log("linkfinc");
         }
+        dispatch(getTopo(topoId))
     };
-
     const linkHandler = (name) => {
         if (!link.from) {
             setLink(prevLink => ({ ...prevLink, from: name }));
@@ -72,12 +81,6 @@ export default function Canvas() {
         }
     }, [link]);
 
-    const deleteHandler = (id) => {
-        dispatch(deleteDevice(id));
-        setTimeout(() => {
-            dispatch(getTopo(topoId));
-        }, 500);
-    };
     return (
         <div className={`bg-background w-full h-full absolute overflow-hidden top-0 z-0${tool === "link" ? " cursor-crosshair" : ""} ${tool === "delete" ? "cursor-crosshair" : ""} ${tool === "addText" ? " cursor-text" : ""}`} >
             <div onMouseMove={updateXarrow} className='relative'>

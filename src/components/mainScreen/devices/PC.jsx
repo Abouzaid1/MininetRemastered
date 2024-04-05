@@ -20,6 +20,7 @@ export default function Controller(props) {
     const device = useSelector(state => state.device);
     const [dragging, setDragging] = useState(false);
     const size = 50;
+    const tool = useSelector(state => state.tool);
     const strokeWidth = 1;
     const iconClass = "text-primary mx-2";
     const divIconClass = "p-1 my-2 flex items-center justify-center transition-[0.2s] box-content h-[70px] w-[70px] hover:outline-dashed hover:outline-primary hover:outline-[2px] rounded-[28px] mx-2  hover:bg-background bg-secondary transition cursor-pointer";
@@ -91,7 +92,7 @@ export default function Controller(props) {
     };
 
     return (
-        <div key={id} className='absolute' onMouseDown={getPosition}
+        <div key={id} className='absolute' onMouseDown={tool == "delete" ? actionHandler : getPosition}
             style={{ top: position.x, left: position.y }} onClick={actionHandler}
         >
             <div className={divIconClass} id={id} >
