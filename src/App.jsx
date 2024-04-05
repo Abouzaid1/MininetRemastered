@@ -45,7 +45,7 @@ function App() {
       <div className="dark bg-background max-w-full h-[100vh] ">
         <Router>
           <Routes>
-            <Route path="/65eb3205a0299917158de221" element={<MainScreen />} />
+            <Route path="/65def9f638ef056fe52852c1" element={<MainScreen />} />
           </Routes>
         </Router>
       </div>
