@@ -36,9 +36,6 @@ export default function Canvas() {
     useEffect(() => {
         dispatch(getTopo(topoId));
     }, []);
-    useEffect(() => {
-        dispatch(getTopo(topoId));
-    }, [tool]);
 
     useEffect(() => {
         setPc(topo.pcs);
@@ -51,15 +48,17 @@ export default function Canvas() {
 
     const actionSelect = (id, name, type) => {
         if (tool == "mouse") {
-        } else if (tool == "delete") {
-            dispatch(deleteDevice(id));
-            console.log("deletefinc");
         } else if (tool == "link") {
             linkHandler(name);
-            console.log("linkfinc");
         }
-        dispatch(getTopo(topoId))
     };
+    const deleteAction = async(id)=>{
+        if(id && tool == "delete") {
+            dispatch(deleteDevice(id));
+            setTimeout(() => { dispatch(getTopo(topoId)) }, 500);
+            console.log("delete");
+        }
+    }
     const linkHandler = (name) => {
         if (!link.from) {
             setLink(prevLink => ({ ...prevLink, from: name }));
@@ -87,35 +86,35 @@ export default function Canvas() {
                 {
                     pc && pc.map((item) => {
                         return (
-                            <PC key={item._id} id={item.name} name={item.name} itemId={item._id} actionHandler={() => actionSelect(item._id, item.name, item.type)}></PC>
+                            <PC key={item._id} id={item.name} name={item.name} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></PC>
                         )
                     })
                 }
                 {
                     sw && sw.map((item) => {
                         return (
-                            <Switch key={item._id} id={item.name} name={item.name} itemId={item._id} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Switch>
+                            <Switch key={item._id} id={item.name} name={item.name} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Switch>
                         )
                     })
                 }
                 {
                     ro && ro.map((item) => {
                         return (
-                            <Routers key={item._id} id={item.name} name={item.name} itemId={item._id} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Routers>
+                            <Routers key={item._id} id={item.name} name={item.name} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Routers>
                         )
                     })
                 }
                 {
                     co && co.map((item) => {
                         return (
-                            <Controller key={item._id} id={item.name} name={item.name} itemId={item._id} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Controller>
+                            <Controller key={item._id} id={item.name} name={item.name} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Controller>
                         )
                     })
                 }
                 {
                     la && la.map((item) => {
                         return (
-                            <Laptops key={item._id} id={item.name} name={item.name} itemId={item._id} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Laptops>
+                            <Laptops key={item._id} id={item.name} name={item.name} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Laptops>
                         )
                     })
                 }

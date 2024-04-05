@@ -22,9 +22,9 @@ export default function NavBar() {
                 <SelectValue className='' placeholder="Your current file.py" />
               </SelectTrigger>
               <SelectContent className="bg-primary text-white">
-                <SelectItem className="text-white text-[20px]" value="light">file.py</SelectItem>
-                <SelectItem className="text-white text-[20px]" value="dark">file.py</SelectItem>
-                <SelectItem className="text-white text-[20px]" value="system">filr.py</SelectItem>
+                <SelectItem className="text-white text-[15px]" value="light">file.py</SelectItem>
+                <SelectItem className="text-white text-[15px]" value="dark">file.py</SelectItem>
+                <SelectItem className="text-white text-[15px]" value="system">filr.py</SelectItem>
               </SelectContent>
             </Select>
           </div>

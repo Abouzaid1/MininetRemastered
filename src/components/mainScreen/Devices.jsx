@@ -23,9 +23,7 @@ import { addDevice } from '@/slices/slice';
 import { Input } from "@/components/ui/input"
 import { Button } from '../ui/button';
 import { getToolName } from '@/slices/toolSlice';
-import axios from 'axios';
 import topoId from './topoId';
-import { socket } from '../../socket/socket';
 export default function Devices() {
     const [device, setDevice] = useState({})
     const pc = "pc"
@@ -61,8 +59,6 @@ export default function Devices() {
             position: { x: 0, y: 0 },
             topoId: topoId
         })
-
-        dispatch(getTopo(topoId))
     }
     useEffect(() => {
         if (device.type) {

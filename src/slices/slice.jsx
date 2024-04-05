@@ -16,11 +16,12 @@ export const addDevice = createAsyncThunk("deviceSlice/addDevice", async (newDev
     return response.data;
 });
 export const deleteDevice = createAsyncThunk("deviceSlice/deleteDevice", async (deviceId) => {
-    await axios.delete(url + `/${deviceId}`)
+    const response = await axios.delete(url + `/${deviceId}`)
+    toast(response.data.msg);
     return deviceId;
 });
 export const updateDevice = createAsyncThunk("deviceSlice/updateDevice", async (updatedDevice) => {
-    await axios.put(url + `/${updatedDevice.id}`, updatedDevice);
+    await axios.post(url + `/${updatedDevice.id}`, updatedDevice);
     return updatedDevice;
 });
 
@@ -37,15 +38,10 @@ const deviceSlice = createSlice({
             state.unshift(action.payload);
         });
         builder.addCase(deleteDevice.fulfilled, (state, action) => {
-            return state.filter(device => device.id !== action.payload);
+            return action.payload
         });
         builder.addCase(updateDevice.fulfilled, (state, action) => {
-            const updatedDeviceIndex = state.findIndex(
-                (device) => device.id === action.payload.id
-            );
-            if (updatedDeviceIndex !== -1) {
-                state[updatedDeviceIndex] = action.payload;
-            }
+            return action.payload
         });
     }
 })

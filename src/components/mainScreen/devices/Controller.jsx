@@ -13,7 +13,7 @@ import { socket } from '../../../socket/socket';
 import { getToolName } from '@/slices/toolSlice';
 
 export default function Controller(props) {
-    const { itemId, name, id, actionHandler } = props;
+    const { itemId, name, id, actionHandler,deleteHandler } = props;
     const [updatedDevice, setUpdatedDevice] = useState();
     const topo = useSelector(state => state.topo);
     const dispatch = useDispatch();
@@ -93,7 +93,7 @@ export default function Controller(props) {
     };
 
     return (
-        <div key={id} className='absolute' onMouseDown={tool == "delete" ? actionHandler : getPosition} onClick={actionHandler}
+        <div key={id} className='absolute' onMouseDown={getPosition} onClick={actionHandler} onMouseUp={tool == "delete" ? deleteHandler:null}
             style={{ top: position.x, left: position.y }}
         >
             <div className={divIconClass} id={id} >
