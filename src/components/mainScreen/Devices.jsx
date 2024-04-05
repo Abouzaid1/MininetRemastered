@@ -69,7 +69,6 @@ export default function Devices() {
             if (device.name) {
                 dispatch(addDevice(device))
                 setTimeout(() => { dispatch(getTopo(topoId)) }, 500)
-                
             }
             else {
                 toast("You need to write a host name");

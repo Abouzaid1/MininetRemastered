@@ -3,17 +3,26 @@ import { Input } from "@/components/ui/input"
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { Skeleton } from "@/components/ui/skeleton"
 import { CircleOff, SendHorizontal } from 'lucide-react';
-
+import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 export default function Chat() {
     const [message, setMessage] = useState('')
     const [output, setOutput] = useState()
     const [loading, setLoading] = useState(false)
+    const safetySettings = [
+        { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', probability: 'LOW' },
+        { category: 'HARM_CATEGORY_HATE_SPEECH', probability: 'NEGLIGIBLE' },
+        { category: 'HARM_CATEGORY_HARASSMENT', probability: 'HIGH' },
+        {
+            category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+            probability: 'NEGLIGIBLE'
+        }
+    ];
     const genAI = new GoogleGenerativeAI("AIzaSyCSsTjxFSuCWHixWhpLd2V1lydGSXFlp7I");
     const clickHandler = async () => {
         if (message !== "") {
 
             setLoading(true);
-            const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+            const model = genAI.getGenerativeModel({ model: "gemini-pro" ,safetySettings});
             setOutput("")
             const prompt = message
 
