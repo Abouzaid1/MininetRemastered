@@ -4,6 +4,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 import { Skeleton } from "@/components/ui/skeleton"
 import { CircleOff, SendHorizontal } from 'lucide-react';
 import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
+import axios from 'axios';
 export default function Chat() {
     const [message, setMessage] = useState('')
     const [output, setOutput] = useState()
@@ -39,7 +40,6 @@ export default function Chat() {
     //     // console.log(import.meta.env.API_KEY);
     // }
     // __________________________________________________________________________________________________
-    const axios = require('axios');
     const apiKey = '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';
     const endpoint = 'https://api.openai.com/v1/completions';
 
