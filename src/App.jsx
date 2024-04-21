@@ -2,51 +2,28 @@ import React, { useEffect, useState } from "react"
 import MainScreen from "./pages/MainScreen"
 import { socket } from './socket/socket';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import topoId from "./components/mainScreen/topoId";
+// import topoId from "./components/mainScreen/topoId";
 import { MousePointer2 } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import HomePage from "./pages/HomePage";
+import NavBar from "./components/mainScreen/NavBar";
+import { useSession } from "@clerk/clerk-react";
+import { useNavigate } from 'react-router-dom';
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 function App() {
-  const [mouse, setMouse] = useState({})
-
-  useEffect(() => {
-    // Establish socket connection when the component mounts
-    socket.connect();
-    socket.emit('dataFromClient', { room: topoId, message: 'Hello from client!' });
-    // Clean up function to close the socket connection when the component unmounts
-
-  }, []);
-
-  socket.on("mouseMove", (data) => {
-    setMouse({ x: data.x, y: data.y });
-  })
-  useEffect(() => {
-    const handleMouseMove = (event) => {
-      // Emit mouse movement data to the server
-      socket.emit("mouseMove", {
-        x: event.clientX,
-        y: event.clientY
-      });
-    };
-
-    // Add event listener for mousemove
-    window.addEventListener("mousemove", handleMouseMove);
-
-    // Cleanup function to remove event listener when component unmounts
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
+  if (!PUBLISHABLE_KEY) {
+    throw new Error("Missing Publishable Key")
+  }
+  
   return (
     <>
-      <div className="w-[50px] h-[50px] absolute  z-[100]" style={{ top: `${mouse.y}px`, left: `${mouse.x}px` }}>
-        <MousePointer2 color="white" />
-        <p className="text-white ">Abouzaid</p>
-
-      </div>
       <div className="dark bg-background max-w-full h-[100vh] ">
+          <NavBar></NavBar>
         <Router>
           <Routes>
-            <Route path="/65def9f638ef056fe52852c1" element={<MainScreen />} />
-            {/* <Route path="/65eb3205a0299917158de221" element={<MainScreen />} /> */}
+            {/* <Route path="/65def9f638ef056fe52852c1" element={<MainScreen />} /> */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/:topoId" element={<MainScreen />} />
           </Routes>
         </Router>
       </div>

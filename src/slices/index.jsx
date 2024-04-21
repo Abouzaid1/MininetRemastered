@@ -6,6 +6,6 @@ export const myStore = configureStore({
     reducer: {
         topo: topoSlice,
         device: deviceSlice,
-        tool:toolSlice
+        tool:toolSlice,
     }
 })

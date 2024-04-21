@@ -23,8 +23,8 @@ import { addDevice } from '@/slices/slice';
 import { Input } from "@/components/ui/input"
 import { Button } from '../ui/button';
 import { getToolName } from '@/slices/toolSlice';
-import topoId from './topoId';
-export default function Devices() {
+// import topoId from './topoId';
+export default function Devices(props) {
     const [device, setDevice] = useState({})
     const pc = "pc"
     const sw = "sw"
@@ -38,6 +38,7 @@ export default function Devices() {
         co: "",
         la: ""
     })
+    const {topoId} = props
     const url = import.meta.env.VITE_URL
     const tool = useSelector(state => state.tool)
     const dispatch = useDispatch()
@@ -71,7 +72,7 @@ export default function Devices() {
             }
         }
     }, [device])
-
+    useEffect(() => { console.log(topoId); }, [topoId])
     return (
         <>
             <div className='flex justify-center'>

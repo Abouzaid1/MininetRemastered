@@ -10,9 +10,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getDevice, updateDevice } from '@/slices/slice';
 import { getTopo } from '@/slices/topoSlice';
 import { socket } from '../../../socket/socket';
+// import topoId from '../topoId';
 
 export default function Controller(props) {
-    const { itemId, name, id, actionHandler,deleteHandler } = props;
+    const { itemId, name, id, actionHandler, deleteHandler, topoId } = props;
     const [updatedDevice, setUpdatedDevice] = useState();
     const topo = useSelector(state => state.topo);
     const dispatch = useDispatch();
@@ -25,7 +26,6 @@ export default function Controller(props) {
     const iconClass = "text-primary mx-2";
     const divIconClass = "p-1 my-2 flex items-center justify-center transition-[0.2s] box-content h-[70px] w-[70px] hover:outline-dashed hover:outline-primary hover:outline-[2px] rounded-[28px] mx-2  hover:bg-background bg-secondary transition cursor-pointer";
     const prevItemIdRef = useRef();
-
     useEffect(() => {
         dispatch(getDevice(itemId));
     }, []);
@@ -50,7 +50,8 @@ export default function Controller(props) {
                 socket.emit("controllerMove", {
                     x: e.clientY - 100,
                     y: e.clientX - 50,
-                    id: itemId
+                    id: itemId,
+                    room:topoId
                 });
             }
         };

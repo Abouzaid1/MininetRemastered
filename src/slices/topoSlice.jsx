@@ -4,7 +4,7 @@ import { socket } from '../socket/socket';
 const url = import.meta.env.VITE_APP_URL + `/topo`
 export const getTopo = createAsyncThunk("topoSlice/getTopo", async (topoId) => {
     const response = await axios.get(`${url}/${topoId}`);
-    socket.emit("topoChange", response.data);
+    socket.emit("topoChange", {data:response.data,room:topoId});
     return response.data;
 })
 export const addTopo = createAsyncThunk("topoSlice/addTopo", async (newTopo) => {

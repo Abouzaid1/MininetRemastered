@@ -11,10 +11,10 @@ import { toast } from "sonner";
 import Xarrow, { useXarrow, Xwrapper } from 'react-xarrows';
 import axios from 'axios';
 import { getToolName } from '@/slices/toolSlice';
-import topoId from './topoId';
+// import topoId from './topoId';
 import { socket } from '../../socket/socket';
 
-export default function Canvas() {
+export default function Canvas(props) {
     const dispatch = useDispatch();
     const updateXarrow = useXarrow();
     const [mouse, setMouse] = useState({})
@@ -26,7 +26,7 @@ export default function Canvas() {
     const [co, setCo] = useState();
     const [la, setLa] = useState();
     const [links, setLinks] = useState();
-
+    const {topoId} = props
     const topoDevices = useSelector(state => state.topo);
     const [topo, setTopo] = useState(topoDevices)
     socket.on("topoChange", (data) => {
@@ -52,8 +52,8 @@ export default function Canvas() {
             linkHandler(name);
         }
     };
-    const deleteAction = async(id)=>{
-        if(id && tool == "delete") {
+    const deleteAction = async (id) => {
+        if (id && tool == "delete") {
             dispatch(deleteDevice(id));
             setTimeout(() => { dispatch(getTopo(topoId)) }, 500);
             console.log("delete");
@@ -79,42 +79,44 @@ export default function Canvas() {
             dispatch(getToolName("mouse"));
         }
     }, [link]);
-
+    useEffect(()=>{
+        console.log(topoId);
+    }, [topoId])
     return (
         <div className={`bg-background w-full h-full absolute overflow-hidden top-0 z-0${tool === "link" ? " cursor-crosshair" : ""} ${tool === "delete" ? "cursor-crosshair" : ""} ${tool === "addText" ? " cursor-text" : ""}`} >
             <div onMouseMove={updateXarrow} className='relative'>
                 {
                     pc && pc.map((item) => {
                         return (
-                            <PC key={item._id} id={item.name} name={item.name} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></PC>
+                            <PC key={item._id} id={item.name} name={item.name} topoId = {topoId} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></PC>
                         )
                     })
                 }
                 {
                     sw && sw.map((item) => {
                         return (
-                            <Switch key={item._id} id={item.name} name={item.name} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Switch>
+                            <Switch key={item._id} id={item.name} name={item.name} topoId={topoId} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Switch>
                         )
                     })
                 }
                 {
                     ro && ro.map((item) => {
                         return (
-                            <Routers key={item._id} id={item.name} name={item.name} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Routers>
+                            <Routers key={item._id} id={item.name} name={item.name} topoId={topoId} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Routers>
                         )
                     })
                 }
                 {
                     co && co.map((item) => {
                         return (
-                            <Controller key={item._id} id={item.name} name={item.name} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Controller>
+                            <Controller key={item._id} id={item.name} name={item.name} topoId={topoId} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Controller>
                         )
                     })
                 }
                 {
                     la && la.map((item) => {
                         return (
-                            <Laptops key={item._id} id={item.name} name={item.name} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Laptops>
+                            <Laptops key={item._id} id={item.name} name={item.name} topoId={topoId} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Laptops>
                         )
                     })
                 }

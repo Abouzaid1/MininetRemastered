@@ -1,20 +1,28 @@
-import React from 'react';
+frontend 
+ - State users.
+ - Main page -> the page will request the toppologies depending on user id.
+            -> the page will send id and get toppologies.
 
-const Line = ({ start, end, strokeColor, strokeWidth }) => {
-  const getPath = () => `M ${start.x} ${start.y} L ${end.x} ${end.y}`;
+backend
+ - if the user id is in the topo members will be in the current and if not it will be in the global (limit 7) if he want to make it public.
+ - when the user create a topology it will add the user id in members.
 
-  return (
-    <svg width="100%" height="100%">
-      <line
-        x1={start.x}
-        y1={start.y}
-        x2={end.x}
-        y2={end.y}
-        stroke={strokeColor}
-        strokeWidth={strokeWidth}
-      />
-    </svg>
-  );
-};
 
-export default Line;
+
+ Devices=>
+      pc,laptop -> 
+        {
+          ip, hostname, gateway, subnetmask
+        }
+      switch -> 
+        {
+          ip, hostname, port => access,trunc
+        }
+      router -> 
+        {
+          ip, hostname
+        }
+      controller -> 
+        {
+         Remorte controller => ip,hostname
+        }
