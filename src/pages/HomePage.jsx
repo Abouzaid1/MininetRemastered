@@ -8,7 +8,7 @@ import { getTopo } from '@/slices/topoSlice';
 import topoId from '@/components/mainScreen/topoId';
 import { useHistory } from 'react-router-dom';
 export default function HomePage() {
-    import { useHistory } from 'react-router-dom';
+    const history = useHistory();
     const { session, isLoaded, isSignedIn } = useSession()
     const navigate = useNavigate()
         const getSession = () => {
