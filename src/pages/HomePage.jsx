@@ -1,31 +1,31 @@
 import React, { useEffect } from 'react'
 import { useSession } from "@clerk/clerk-react";
 import { useNavigate } from 'react-router-dom';
-import { Network } from 'lucide-react';
+import { Network, Replace } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getTopo } from '@/slices/topoSlice';
 import topoId from '@/components/mainScreen/topoId';
-import { useHistory } from 'react-router-dom';
+
 export default function HomePage() {
-    const history = useHistory();
     const { session, isLoaded, isSignedIn } = useSession()
-    const navigate = useNavigate()
-        const getSession = () => {
-            if (!isLoaded) {
+    // const navigate = useNavigate()
+    //     const getSession = () => {
+    //         if (!isLoaded) {
                 
-                return null;
-            }
-            if (!isSignedIn) {
-                history.push("https://star-shiner-26.accounts.dev/sign-in");
-                // window.location.replace = 'https://star-shiner-26.accounts.dev/sign-in';
-                return null
-            }
-        }
-        getSession()
+    //             return null;
+    //         }
+    //         if (!isSignedIn) {
+    //             navigate("/auth");
+    //             // window.location.href = 'https://star-shiner-26.accounts.dev/sign-in';
+    //             return null
+    //         }
+    //     }
+    //     getSession()
 
     return (
         <>
+
             {
                 isSignedIn && <div className='text-white p-5'>
                     <h1 className='font-semibold text-[30px]'>Your Current topologies</h1>
