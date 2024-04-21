@@ -17,14 +17,13 @@ function App() {
   }
   const { session, isLoaded, isSignedIn } = useSession()
 
-  // const getSession = () => {
-  //   if (!isSignedIn) {
+  const getSession = () => {
+    if (!isSignedIn) {
 
-  //     // window.location.href = 'https://star-shiner-26.accounts.dev/sign-in';
-  //     return <Auth/>
-  //   }
-  // }
-  // getSession()
+      return <Auth/>
+    }
+  }
+  getSession()
   return (
     <>
       <div className="dark bg-background max-w-full h-[100vh] ">
@@ -46,6 +45,7 @@ function App() {
               <Router>
                 <Routes>
                   <Route path="/" Component={SignIn} />
+                  <Route path="/:topoId" Component={SignIn} />
                   <Route path="/sign-up" Component={SignUp} />
                 </Routes>
               </Router>
