@@ -15,7 +15,7 @@ export default function HomePage() {
                 return null;
             }
             if (!isSignedIn) {
-                window.location.href = 'https://star-shiner-26.accounts.dev/sign-in';
+                window.location.replace = 'https://star-shiner-26.accounts.dev/sign-in';
                 return null
             }
         }
