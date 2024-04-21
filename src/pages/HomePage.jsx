@@ -6,7 +6,9 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getTopo } from '@/slices/topoSlice';
 import topoId from '@/components/mainScreen/topoId';
+import { useHistory } from 'react-router-dom';
 export default function HomePage() {
+    import { useHistory } from 'react-router-dom';
     const { session, isLoaded, isSignedIn } = useSession()
     const navigate = useNavigate()
         const getSession = () => {
@@ -15,7 +17,8 @@ export default function HomePage() {
                 return null;
             }
             if (!isSignedIn) {
-                window.location.replace = 'https://star-shiner-26.accounts.dev/sign-in';
+                history.push("https://star-shiner-26.accounts.dev/sign-in");
+                // window.location.replace = 'https://star-shiner-26.accounts.dev/sign-in';
                 return null
             }
         }
