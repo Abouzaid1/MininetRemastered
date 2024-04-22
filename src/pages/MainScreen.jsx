@@ -15,22 +15,24 @@ import { useNavigate } from 'react-router-dom';
 export default function MainScreen() {
     const { session, isLoaded, isSignedIn } = useSession()
     const navigate = useNavigate()
-        const getSession = () => {
-            if (!isLoaded) {
-                // Add logic to handle loading state
-                return null;
-            }
-            if (!isSignedIn) {
-                navigate("/");
-                return null
-            }
+    const topo = useSelector(state => state.topo)
+    const getSession = () => {
+        if (!isLoaded) {
+            // Add logic to handle loading state
+            return null;
         }
-        getSession()
+        if (!isSignedIn) {
+            navigate("/");
+            return null
+        }
+    }
+    getSession()
     const dispatch = useDispatch();
     const { topoId } = useParams()
     const [mouse, setMouse] = useState({})
     useEffect(() => {
         dispatch(getTopo(topoId))
+        console.log(topo);
     }, [])
     useEffect(() => {
 
