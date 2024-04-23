@@ -17,10 +17,6 @@ export default function MainScreen() {
     const navigate = useNavigate()
     const topo = useSelector(state => state.topo)
     const getSession = () => {
-        if (!isLoaded) {
-            // Add logic to handle loading state
-            return null;
-        }
         if (!isSignedIn) {
             navigate("/");
             return null
