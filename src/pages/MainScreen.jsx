@@ -29,9 +29,6 @@ export default function MainScreen() {
     useEffect(() => {
         dispatch(getTopo(topoId))
         console.log("topo",topo);
-    }, [])
-    useEffect(() => {
-
         // Establish socket connection when the component mounts
         socket.connect();
         socket.emit('dataFromClient', { room: topoId, message: 'Hello from client!' });
