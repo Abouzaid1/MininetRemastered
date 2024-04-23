@@ -32,7 +32,7 @@ export default function MainScreen() {
     const [mouse, setMouse] = useState({})
     useEffect(() => {
         dispatch(getTopo(topoId))
-        console.log(topo);
+        console.log("topo",topo);
     }, [])
     useEffect(() => {
 
