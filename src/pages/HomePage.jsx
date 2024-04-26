@@ -9,19 +9,14 @@ import topoId from '@/components/mainScreen/topoId';
 
 export default function HomePage() {
     const { session, isLoaded, isSignedIn } = useSession()
-    // const navigate = useNavigate()
-    //     const getSession = () => {
-    //         if (!isLoaded) {
-                
-    //             return null;
-    //         }
-    //         if (!isSignedIn) {
-    //             navigate("/auth");
-    //             // window.location.href = 'https://star-shiner-26.accounts.dev/sign-in';
-    //             return null
-    //         }
-    //     }
-    //     getSession()
+    const navigate = useNavigate()
+        const getSession = () => {
+            if (!isSignedIn) {
+                navigate("/auth");
+                // window.location.href = 'https://star-shiner-26.accounts.dev/sign-in';
+            }
+        }
+        getSession()
 
     return (
         <>

@@ -19,7 +19,6 @@ export default function MainScreen() {
     const getSession = () => {
         if (!isSignedIn) {
             navigate("/");
-            return null
         }
     }
     getSession()

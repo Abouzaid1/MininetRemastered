@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import { socket } from "@/socket/socket";
 
 import { toast } from "sonner";
 
@@ -17,6 +17,7 @@ export const addDevice = createAsyncThunk("deviceSlice/addDevice", async (newDev
 });
 export const deleteDevice = createAsyncThunk("deviceSlice/deleteDevice", async (deviceId) => {
     const response = await axios.delete(url + `/${deviceId}`)
+    socket.emit("topoChange", { data: response.data, room: topoId });
     toast(response.data.msg);
     return deviceId;
 });
