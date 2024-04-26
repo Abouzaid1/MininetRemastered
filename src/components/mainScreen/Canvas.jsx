@@ -38,6 +38,7 @@ export default function Canvas(props) {
     }, []);
 
     useEffect(() => {
+        console.log(topo);
         setPc(topo.pcs);
         setSw(topo.sws);
         setRo(topo.routers);

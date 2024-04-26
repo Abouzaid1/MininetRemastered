@@ -26,14 +26,14 @@ export default function MainScreen() {
     const { topoId } = useParams()
     const [mouse, setMouse] = useState({})
     useEffect(() => {
-        dispatch(getTopo(topoId))
+        // dispatch(getTopo(topoId))
         console.log("topo",topo);
         // Establish socket connection when the component mounts
         socket.connect();
         socket.emit('dataFromClient', { room: topoId, message: 'Hello from client!' });
         // Clean up function to close the socket connection when the component unmounts
 
-    }, [topo]);
+    }, []);
 
     socket.on("mouseMove", (data) => {
         setMouse({ x: data.x, y: data.y });
