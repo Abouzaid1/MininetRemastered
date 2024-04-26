@@ -33,7 +33,7 @@ export default function MainScreen() {
         socket.emit('dataFromClient', { room: topoId, message: 'Hello from client!' });
         // Clean up function to close the socket connection when the component unmounts
 
-    }, []);
+    }, [topo]);
 
     socket.on("mouseMove", (data) => {
         setMouse({ x: data.x, y: data.y });
