@@ -30,7 +30,8 @@ export default function Canvas(props) {
     const topoDevices = useSelector(state => state.topo);
     const [topo, setTopo] = useState(topoDevices)
     socket.on("topoChange", (data) => {
-        setTopo(data);
+        setTopo(data.data);
+        console.log("data",data);
     })
 
     useEffect(() => {
@@ -38,7 +39,6 @@ export default function Canvas(props) {
     }, []);
 
     useEffect(() => {
-        console.log(topo);
         setPc(topo.pcs);
         setSw(topo.sws);
         setRo(topo.routers);
@@ -80,9 +80,6 @@ export default function Canvas(props) {
             dispatch(getToolName("mouse"));
         }
     }, [link]);
-    useEffect(()=>{
-        console.log(topoId);
-    }, [topoId])
     return (
         <div className={`bg-background w-full h-full absolute overflow-hidden top-0 z-0${tool === "link" ? " cursor-crosshair" : ""} ${tool === "delete" ? "cursor-crosshair" : ""} ${tool === "addText" ? " cursor-text" : ""}`} >
             <div onMouseMove={updateXarrow} className='relative'>

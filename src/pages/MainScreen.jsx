@@ -15,7 +15,6 @@ import { useNavigate } from 'react-router-dom';
 export default function MainScreen() {
     const { session, isLoaded, isSignedIn } = useSession()
     const navigate = useNavigate()
-    const topo = useSelector(state => state.topo)
     const getSession = () => {
         if (!isSignedIn) {
             navigate("/");
@@ -27,7 +26,6 @@ export default function MainScreen() {
     const [mouse, setMouse] = useState({})
     useEffect(() => {
         // dispatch(getTopo(topoId))
-        console.log("topo",topo);
         // Establish socket connection when the component mounts
         socket.connect();
         socket.emit('dataFromClient', { room: topoId, message: 'Hello from client!' });

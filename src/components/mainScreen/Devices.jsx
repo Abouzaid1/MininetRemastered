@@ -72,7 +72,6 @@ export default function Devices(props) {
             }
         }
     }, [device])
-    useEffect(() => { console.log(topoId); }, [topoId])
     return (
         <>
             <div className='flex justify-center'>
