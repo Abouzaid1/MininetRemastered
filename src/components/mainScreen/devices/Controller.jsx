@@ -12,9 +12,17 @@ import { getTopo } from '@/slices/topoSlice';
 import { socket } from '../../../socket/socket';
 import { getToolName } from '@/slices/toolSlice';
 // import topoId from '../topoId';
-
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from '@/components/ui/input';
 export default function Controller(props) {
-    const { itemId, name, id, actionHandler,deleteHandler,topoId } = props;
+    const { itemId, name, id, actionHandler, deleteHandler, topoId } = props;
     const [updatedDevice, setUpdatedDevice] = useState();
     const topo = useSelector(state => state.topo);
     const dispatch = useDispatch();
@@ -22,6 +30,7 @@ export default function Controller(props) {
     const device = useSelector(state => state.device);
     const tool = useSelector(state => state.tool);
     const [dragging, setDragging] = useState(false);
+    const [open, setOpen] = useState(false);
     const size = 50;
     const strokeWidth = 1;
     const iconClass = "text-primary mx-2";
@@ -39,22 +48,24 @@ export default function Controller(props) {
 
     useEffect(() => {
         const handleMouseMove = (e) => {
-            if (dragging) {
-                setPosition({ x: e.clientY - 100, y: e.clientX - 50 });
-                setUpdatedDevice({
-                    id: itemId,
-                    position: {
+            
+                if (dragging) {
+                    setPosition({ x: e.clientY - 100, y: e.clientX - 50 });
+                    setUpdatedDevice({
+                        id: itemId,
+                        position: {
+                            x: e.clientY - 100,
+                            y: e.clientX - 50
+                        }
+                    });
+                    socket.emit("controllerMove", {
                         x: e.clientY - 100,
-                        y: e.clientX - 50
-                    }
-                });
-                socket.emit("controllerMove", {
-                    x: e.clientY - 100,
-                    y: e.clientX - 50,
-                    id: itemId,
-                    room:topoId
-                });
-            }
+                        y: e.clientX - 50,
+                        id: itemId,
+                        room: topoId
+                    });
+                }
+            
         };
 
         const mouseUp = () => {
@@ -63,13 +74,16 @@ export default function Controller(props) {
         if (dragging == false) {
             dispatch(updateDevice(updatedDevice))
         }
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', mouseUp);
-
-        return () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', mouseUp);
-        };
+        console.log(open);
+        
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', mouseUp);
+       
+            
+            return () => {
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('mouseup', mouseUp);
+            };
     }, [dragging]);
 
     useEffect(() => {
@@ -90,20 +104,49 @@ export default function Controller(props) {
     }, []);
 
     const getPosition = () => {
+        if (!open) {
         setDragging(true);
+        }
     };
 
     return (
-        <div key={id} className='absolute' onMouseDown={getPosition} onClick={actionHandler} onMouseUp={tool == "delete" ? deleteHandler:null}
+        <div key={id} className='absolute' onMouseDown={getPosition} onClick={actionHandler} onMouseUp={tool == "delete" ? deleteHandler : null}
             style={{ top: position.x, left: position.y }}
         >
             <div className={divIconClass} id={id} >
                 <TooltipProvider>
                     <Tooltip>
-                        <TooltipTrigger><Server className={iconClass} size={size} strokeWidth={strokeWidth} /></TooltipTrigger>
-                        <TooltipContent>
-                            <p>{name}</p>
-                        </TooltipContent>
+                        {
+                            tool != "link" ? <Dialog onOpenChange={() => { setOpen(!open) }}>
+                                <DialogTrigger>
+                                    <TooltipTrigger><Server className={iconClass} size={size} strokeWidth={strokeWidth} /></TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>{name}</p>
+                                    </TooltipContent>
+                                </DialogTrigger>
+                                <DialogContent className="bg-primary text-secondary">
+                                    <DialogHeader className="flex-1 gap-[20px]">
+                                        <h1 className='text-[20px] font-bold mb-[20px]'>Controller</h1>
+                                        <div>
+                                            <DialogTitle className="mb-2">Host Name</DialogTitle>
+                                            <DialogDescription>
+                                                <Input placeholder="Host Name" value={device.name} className="text-white" />
+                                            </DialogDescription>
+                                        </div>
+                                        <div>
+                                            <DialogTitle className="mb-2">IP Address</DialogTitle>
+                                            <DialogDescription>
+                                                <Input placeholder="IP Address" value={device?.ipAddress} className="text-white" />
+                                            </DialogDescription>
+                                        </div>
+                                    </DialogHeader>
+                                </DialogContent>
+                            </Dialog> : <>
+                                <TooltipTrigger><Server className={iconClass} size={size} strokeWidth={strokeWidth} /></TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{name}</p>
+                                </TooltipContent></>
+                        }
                     </Tooltip>
                 </TooltipProvider>
             </div>

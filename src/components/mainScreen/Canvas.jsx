@@ -13,7 +13,15 @@ import axios from 'axios';
 import { getToolName } from '@/slices/toolSlice';
 // import topoId from './topoId';
 import { socket } from '../../socket/socket';
-
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from '@/components/ui/input';
 export default function Canvas(props) {
     const dispatch = useDispatch();
     const updateXarrow = useXarrow();
@@ -28,16 +36,14 @@ export default function Canvas(props) {
     const [links, setLinks] = useState();
     const {topoId} = props
     const topoDevices = useSelector(state => state.topo);
+   
     const [topo, setTopo] = useState(topoDevices)
     socket.on("topoChange", (data) => {
         setTopo(data.data);
-        console.log("data",data);
     })
-
     useEffect(() => {
         dispatch(getTopo(topoId));
     }, []);
-
     useEffect(() => {
         setPc(topo.pcs);
         setSw(topo.sws);
@@ -118,6 +124,7 @@ export default function Canvas(props) {
                         )
                     })
                 }
+                    
                 {
                     links && links.map((item) => {
                         return (

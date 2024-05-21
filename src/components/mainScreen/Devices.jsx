@@ -41,6 +41,7 @@ export default function Devices(props) {
     const {topoId} = props
     const url = import.meta.env.VITE_URL
     const tool = useSelector(state => state.tool)
+    const topo = useSelector(state => state.topo)
     const dispatch = useDispatch()
     const size = 50
     const strokeWidth = 1
@@ -54,6 +55,7 @@ export default function Devices(props) {
         }));
     }
     const addHandler = (deviceType) => {
+        
         setDevice({
             type: deviceType,
             name: hostName[deviceType],
@@ -65,13 +67,16 @@ export default function Devices(props) {
         if (device.type) {
             if (device.name) {
                 dispatch(addDevice(device))
-                setTimeout(() => { dispatch(getTopo(topoId)) }, 500)
             }
             else {
                 toast("You need to write a host name");
             }
         }
     }, [device])
+
+    useEffect(() => { 
+        dispatch(getTopo(topoId))
+    }, [topo])
     return (
         <>
             <div className='flex justify-center'>

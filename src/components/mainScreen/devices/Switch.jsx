@@ -11,7 +11,15 @@ import { getDevice, updateDevice } from '@/slices/slice';
 import { getTopo } from '@/slices/topoSlice';
 import { socket } from '../../../socket/socket';
 // import topoId from '../topoId';
-
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from '@/components/ui/input';
 export default function Controller(props) {
     const { itemId, name, id, actionHandler, deleteHandler, topoId } = props;
     const [updatedDevice, setUpdatedDevice] = useState();
@@ -26,6 +34,7 @@ export default function Controller(props) {
     const iconClass = "text-primary mx-2";
     const divIconClass = "p-1 my-2 flex items-center justify-center transition-[0.2s] box-content h-[70px] w-[70px] hover:outline-dashed hover:outline-primary hover:outline-[2px] rounded-[28px] mx-2  hover:bg-background bg-secondary transition cursor-pointer";
     const prevItemIdRef = useRef();
+    const [open, setOpen] = useState(false);
     useEffect(() => {
         dispatch(getDevice(itemId));
     }, []);
@@ -89,7 +98,9 @@ export default function Controller(props) {
     }, []);
 
     const getPosition = () => {
-        setDragging(true);
+        if (!open) {
+            setDragging(true);
+        }
     };
 
     return (
@@ -99,10 +110,31 @@ export default function Controller(props) {
             <div className={divIconClass} id={id} >
                 <TooltipProvider>
                     <Tooltip>
-                        <TooltipTrigger><RadioReceiver className={iconClass} size={size} strokeWidth={strokeWidth} /></TooltipTrigger>
-                        <TooltipContent>
-                            <p>{name}</p>
-                        </TooltipContent>
+                        {
+                            tool != "link" ? <Dialog onOpenChange={() => { setOpen(!open) }}>
+                                <DialogTrigger>
+                                    <TooltipTrigger><RadioReceiver className={iconClass} size={size} strokeWidth={strokeWidth} /></TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>{name}</p>
+                                    </TooltipContent>
+                                </DialogTrigger>
+                                <DialogContent className="bg-primary text-secondary">
+                                    <DialogHeader className="flex-1 gap-[20px]">
+                                        <h1 className='text-[20px] font-bold mb-[20px]'>Switch</h1>
+                                        <div>
+                                            <DialogTitle className="mb-2">Host Name</DialogTitle>
+                                            <DialogDescription>
+                                                <Input placeholder="Host Name" value={device.name} className="text-white" />
+                                            </DialogDescription>
+                                        </div>
+                                    </DialogHeader>
+                                </DialogContent>
+                            </Dialog> : <>
+                                    <TooltipTrigger><RadioReceiver className={iconClass} size={size} strokeWidth={strokeWidth} /></TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{name}</p>
+                                </TooltipContent></>
+                        }
                     </Tooltip>
                 </TooltipProvider>
             </div>
