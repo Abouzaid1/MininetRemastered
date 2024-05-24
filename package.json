@@ -3,11 +3,26 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "public/electron.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "electron-dev": "concurrently \"vite\" \"wait-on http://localhost:5000 && electron .\"",
+    "electron-pack": "electron-builder"
+  },
+  "build": {
+    "appId": "com.example.myapp",
+    "mac": {
+      "category": "your.app.category.type"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.0.0",
@@ -33,7 +48,9 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^0.2.1",
+    "concurrently": "^8.2.2",
     "dotenv": "^16.4.5",
+    "electron-is-dev": "^3.0.1",
     "fabric": "^5.3.0",
     "lucide": "^0.341.0",
     "lucide-react": "^0.341.0",
@@ -58,7 +75,8 @@
     "sonner": "^1.4.3",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.3",
+    "wait-on": "^7.2.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.20",
@@ -66,6 +84,8 @@
     "@types/react-dom": "^18.2.15",
     "@vitejs/plugin-react": "^4.2.0",
     "autoprefixer": "^10.4.17",
+    "electron": "^30.0.8",
+    "electron-builder": "^24.13.3",
     "eslint": "^8.53.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
