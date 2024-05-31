@@ -39,7 +39,9 @@ export default function Canvas(props) {
    
     const [topo, setTopo] = useState(topoDevices)
     socket.on("topoChange", (data) => {
-        setTopo(data.data);
+        if (data.room == topoId){
+            setTopo(data.data);
+        }
     })
     useEffect(() => {
         dispatch(getTopo(topoId));
