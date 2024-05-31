@@ -39,7 +39,7 @@ export default function MainScreen() {
     useEffect(() => {
         const handleMouseMove = (event) => {
             // Emit mouse movement data to the server
-            socket.emit("mouseMove", {
+            socket.to(topoId).emit("mouseMove", {
                 x: event.clientX,
                 y: event.clientY,
                 room: topoId
