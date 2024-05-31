@@ -42,7 +42,7 @@ export default function Chat() {
             {/* <p className='text-white font-semibold text-[30px]'>Gemini</p> */}
             <div className=' h-full '>
                 <div className=' w-full '>
-                    <Input value={message} onChange={(e) => { setMessage(e.target.value) }} type="text" className="text-white border-primary my-2 w-full rounded-3xl py-6 " placeholder="Email" />
+                    <Input value={message} onChange={(e) => { setMessage(e.target.value) }} type="text" className="text-white border-primary my-2 w-full rounded-3xl py-6 " placeholder="Talk to Gemini" />
                     {
                         message == "" ? <button disabled className=' w-full rounded-3xl py-2 bg-secondary border-[grey] border text-[grey] font-bold px-4 flex justify-center gap-3'>Type Something   <CircleOff /></button> : <button onClick={clickHandler} className=' w-full rounded-3xl py-2 bg-secondary border-white border text-white flex justify-center gap-3 font-bold px-4 '>Send  <SendHorizontal /></button>
                     }

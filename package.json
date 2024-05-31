@@ -18,7 +18,7 @@
       "category": "your.app.category.type"
     },
     "win": {
-      "target": "nsis"
+      "target": "exe"
     },
     "linux": {
       "target": "AppImage"
