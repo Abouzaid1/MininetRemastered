@@ -4,6 +4,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 import { Skeleton } from "@/components/ui/skeleton"
 import { CircleOff, SendHorizontal } from 'lucide-react';
 import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
+import { TextGenerateEffect } from "../../ui/text-generate-effect";
 import axios from 'axios';
 export default function Chat() {
     const [message, setMessage] = useState('')
@@ -38,7 +39,7 @@ export default function Chat() {
     }
     // __________________________________________________________________________________________________
     return (
-        <div className='min-w-[300px] transition-all p-5 max-w-[500px] min-h-[70px] max-h-[600px] z-30 bg-secondary absolute right-[20px] rounded-[10px] top-[100px] overflow-y-scroll'>
+        <div className='min-w-[300px] transition-all p-5 max-w-[500px] min-h-[70px] max-h-[600px] z-30 bg-secondary absolute right-[-250px] hover:right-[20px] rounded-[10px]  top-[100px] overflow-y-scroll'>
             {/* <p className='text-white font-semibold text-[30px]'>Gemini</p> */}
             <div className=' h-full '>
                 <div className=' w-full '>
@@ -60,7 +61,11 @@ export default function Chat() {
 
                 </div>
                 <div className='text-white'>
-                    {output}
+                    {
+                        output && <TextGenerateEffect words={output} />
+                    }
+
+                    {/* {output} */}
                 </div>
 
             </div>

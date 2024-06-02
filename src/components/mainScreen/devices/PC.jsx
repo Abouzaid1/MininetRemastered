@@ -20,7 +20,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from '@/components/ui/input';
-export default function Controller(props) {
+export default function PC(props) {
     const { itemId, name, id, actionHandler, deleteHandler, topoId } = props;
     const [updatedDevice, setUpdatedDevice] = useState();
     const topo = useSelector(state => state.topo);
@@ -111,7 +111,7 @@ export default function Controller(props) {
                 <TooltipProvider>
                     <Tooltip>
                         {
-                            tool != "link" ? <Dialog onOpenChange={() => { setOpen(!open) }}>
+                            tool =="mouse"  ? <Dialog onOpenChange={() => { setOpen(!open) }}>
                                 <DialogTrigger>
                                     <TooltipTrigger><Monitor className={iconClass} size={size} strokeWidth={strokeWidth} /></TooltipTrigger>
                                     <TooltipContent>

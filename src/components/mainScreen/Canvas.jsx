@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import Xarrow, { useXarrow, Xwrapper } from 'react-xarrows';
 import axios from 'axios';
 import { getToolName } from '@/slices/toolSlice';
+const url = import.meta.env.VITE_APP_URL + '/device'
+import Loading from '../ui/loading';
 // import topoId from './topoId';
 import { socket } from '../../socket/socket';
 import {
@@ -25,6 +27,7 @@ import { Input } from '@/components/ui/input';
 export default function Canvas(props) {
     const dispatch = useDispatch();
     const updateXarrow = useXarrow();
+    const [loading,setLoading] = useState(false)
     const [mouse, setMouse] = useState({})
     const tool = useSelector(state => state.tool);
     const [link, setLink] = useState({ from: null, to: null });
@@ -41,10 +44,12 @@ export default function Canvas(props) {
     socket.on("topoChange", (data) => {
         if (data.room == topoId){
             setTopo(data.data);
+            // console.log("Damn");
         }
     })
     useEffect(() => {
         dispatch(getTopo(topoId));
+        // console.log("Damn");
     }, []);
     useEffect(() => {
         setPc(topo.pcs);
@@ -63,9 +68,10 @@ export default function Canvas(props) {
     };
     const deleteAction = async (id) => {
         if (id && tool == "delete") {
-            dispatch(deleteDevice(id));
-            setTimeout(() => { dispatch(getTopo(topoId)) }, 500);
-            console.log("delete");
+            setLoading(true)
+
+            await axios.delete(url + `/${id}`).then(() => { dispatch(getTopo(topoId)), setLoading(false) })
+            // setTimeout(() => { dispatch(getTopo(topoId)), setLoading(false) }, 1000);
         }
     }
     const linkHandler = (name) => {
@@ -89,6 +95,10 @@ export default function Canvas(props) {
         }
     }, [link]);
     return (
+        <>
+           {
+            loading && <Loading/>
+           }
         <div className={`bg-background w-full h-full absolute overflow-hidden top-0 z-0${tool === "link" ? " cursor-crosshair" : ""} ${tool === "delete" ? "cursor-crosshair" : ""} ${tool === "addText" ? " cursor-text" : ""}`} >
             <div onMouseMove={updateXarrow} className='relative'>
                 {
@@ -131,12 +141,12 @@ export default function Canvas(props) {
                     links && links.map((item) => {
                         return (
                             <Xarrow
-                                key={`${item._id}`}
-                                start={item.link.from}
-                                end={item.link.to}
-                                lineColor="white"
-                                headSize={0}
-                                strokeWidth={1}
+                            key={`${item._id}`}
+                            start={item.link.from}
+                            end={item.link.to}
+                            lineColor="white"
+                            headSize={0}
+                            strokeWidth={1}
                                 curveness={0} animation={1}
                             />
                         )
@@ -144,5 +154,6 @@ export default function Canvas(props) {
                 }
             </div>
         </div>
+                </>
     )
 }

@@ -67,6 +67,7 @@ export default function Devices(props) {
         if (device.type) {
             if (device.name) {
                 dispatch(addDevice(device))
+                setTimeout(() => dispatch(getTopo(topoId)),2000)
             }
             else {
                 toast("You need to write a host name");
@@ -75,7 +76,6 @@ export default function Devices(props) {
     }, [device])
 
     useEffect(() => { 
-        dispatch(getTopo(topoId))
     }, [topo])
     return (
         <>

@@ -117,7 +117,7 @@ export default function Controller(props) {
                 <TooltipProvider>
                     <Tooltip>
                         {
-                            tool != "link" ? <Dialog onOpenChange={() => { setOpen(!open) }}>
+                            tool == "mouse" ? <Dialog onOpenChange={() => { setOpen(!open) }}>
                                 <DialogTrigger>
                                     <TooltipTrigger><Server className={iconClass} size={size} strokeWidth={strokeWidth} /></TooltipTrigger>
                                     <TooltipContent>
