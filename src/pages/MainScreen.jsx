@@ -39,7 +39,8 @@ export default function MainScreen() {
         if (session) {
             socket.emit("joinRoom", {
                 room: topoId,
-                user: session.publicUserData.identifier
+                user: session.publicUserData.identifier,
+                userPhoto: session.publicUserData.imageUrl
             });
         }
     }, [session, topoId]);

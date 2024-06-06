@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from '@/components/ui/input';
 export default function Switch(props) {
-    const { itemId, name, id, actionHandler, deleteHandler, topoId } = props;
+    const { itemId, name, id, actionHandler, deleteHandler, topoId ,x,y} = props;
     const [updatedDevice, setUpdatedDevice] = useState();
     const topo = useSelector(state => state.topo);
     const dispatch = useDispatch();
@@ -32,18 +32,19 @@ export default function Switch(props) {
     const tool = useSelector(state => state.tool);
     const strokeWidth = 1;
     const iconClass = "text-primary mx-2";
-    const divIconClass = "p-1 my-2 flex items-center justify-center transition-[0.2s] box-content h-[70px] w-[70px] hover:outline-dashed hover:outline-primary hover:outline-[2px] rounded-[28px] mx-2  hover:bg-background bg-secondary transition cursor-pointer";
+    const divIconClass = "p-1 my-2 flex items-center justify-center transition-[0.2s] box-content h-[70px] hover:shadow-2xl hover:shadow-gray-600 w-[70px] hover:outline-dashed hover:outline-primary hover:outline-[2px] rounded-[28px] mx-2  hover:bg-background bg-secondary transition cursor-pointer";
     const prevItemIdRef = useRef();
     const [open, setOpen] = useState(false);
-    useEffect(() => {
-        dispatch(getDevice(itemId));
-    }, []);
+    // useEffect(() => {
+    //     dispatch(getDevice(itemId));
+    // }, []);
 
     useEffect(() => {
-        if (device._id === itemId) {
-            setPosition({ x: device?.position?.x, y: device?.position?.y });
-        }
-    }, [device]);
+        // if (device._id === itemId) {
+        // setPosition({ x: device?.position?.x, y: device?.position?.y });
+        setPosition({ x: x, y: y })
+        // }
+    }, []);
 
     useEffect(() => {
         const handleMouseMove = (e) => {
@@ -121,12 +122,12 @@ export default function Switch(props) {
                                 <DialogContent className="bg-primary text-secondary">
                                     <DialogHeader className="flex-1 gap-[20px]">
                                         <h1 className='text-[20px] font-bold mb-[20px]'>Switch</h1>
-                                        <div>
+                                        {/* <div>
                                             <DialogTitle className="mb-2">Host Name</DialogTitle>
                                             <DialogDescription>
                                                 <Input placeholder="Host Name" value={device.name} className="text-white" />
                                             </DialogDescription>
-                                        </div>
+                                        </div> */}
                                     </DialogHeader>
                                 </DialogContent>
                             </Dialog> : <>

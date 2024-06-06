@@ -20,13 +20,14 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 export default function Controller(props) {
-    const { itemId, name, id, actionHandler, deleteHandler, topoId } = props;
+    const { itemId, name, id, actionHandler, deleteHandler, topoId,ipAddress,x,y } = props;
     const [updatedDevice, setUpdatedDevice] = useState();
     const topo = useSelector(state => state.topo);
     const dispatch = useDispatch();
-    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [position, setPosition] = useState({ x: x, y: y });
     const device = useSelector(state => state.device);
     const tool = useSelector(state => state.tool);
     const [dragging, setDragging] = useState(false);
@@ -34,18 +35,38 @@ export default function Controller(props) {
     const size = 50;
     const strokeWidth = 1;
     const iconClass = "text-primary mx-2";
-    const divIconClass = "p-1 my-2 flex items-center justify-center transition-[0.2s] box-content h-[70px] w-[70px] hover:outline-dashed hover:outline-primary hover:outline-[2px] rounded-[28px] mx-2  hover:bg-background bg-secondary transition cursor-pointer";
+    const divIconClass = "p-1 my-2 flex items-center justify-center hover:shadow-2xl hover:shadow-gray-600  transition-[0.2s] box-content h-[70px] w-[70px] hover:outline-dashed hover:outline-primary hover:outline-[2px] rounded-[28px] mx-2  hover:bg-background bg-secondary transition cursor-pointer";
     const prevItemIdRef = useRef();
+    const [hostName, setHostName] = useState(name)
+    const [deviceIpAddress, setDeviceIpAddress] = useState(ipAddress)
+    // useEffect(() => {
+    //     dispatch(getDevice(itemId));
+    // }, []);
+
     useEffect(() => {
-        dispatch(getDevice(itemId));
+        // if (device._id === itemId) {
+            // setPosition({ x: device?.position?.x, y: device?.position?.y });
+            setPosition({x:x, y:y})
+        // }
     }, []);
-
-    useEffect(() => {
-        if (device._id === itemId) {
-            setPosition({ x: device?.position?.x, y: device?.position?.y });
-        }
-    }, [device]);
-
+    const handleIpAddressChange = (e)=>{
+        setDeviceIpAddress(e.target.value);
+        console.log(e.target.value);
+    }
+    socket.on("deviceUpdate",(data)=>{
+        setHostName(data.name)
+        setDeviceIpAddress(data.ipAddress)
+    })
+    const updateData = ()=>{
+        console.log("data");
+        dispatch(updateDevice({ ipAddress: deviceIpAddress,id:itemId}))
+        socket.emit("deviceUpdate",{
+            id:itemId,
+            ipAddress:deviceIpAddress,
+            room:topoId,
+            name:hostName,
+        })
+    }
     useEffect(() => {
         const handleMouseMove = (e) => {
             
@@ -130,14 +151,17 @@ export default function Controller(props) {
                                         <div>
                                             <DialogTitle className="mb-2">Host Name</DialogTitle>
                                             <DialogDescription>
-                                                <Input placeholder="Host Name" value={device.name} className="text-white" />
+                                                <Input placeholder="Host Name"  value={hostName} className="text-white" />
                                             </DialogDescription>
                                         </div>
                                         <div>
                                             <DialogTitle className="mb-2">IP Address</DialogTitle>
                                             <DialogDescription>
-                                                <Input placeholder="IP Address" value={device?.ipAddress} className="text-white" />
+                                                <Input placeholder="IP Address" onChange={(e)=>{handleIpAddressChange(e)}} value={deviceIpAddress} className="text-white" />
                                             </DialogDescription>
+                                        </div>
+                                        <div>
+                                            <Button onClick={updateData} className="bg-white text-black hover:text-white font-[500] w-full">Update</Button>
                                         </div>
                                     </DialogHeader>
                                 </DialogContent>

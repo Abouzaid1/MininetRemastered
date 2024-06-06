@@ -13,6 +13,7 @@ import axios from 'axios';
 import { getToolName } from '@/slices/toolSlice';
 const url = import.meta.env.VITE_APP_URL + '/device'
 import Loading from '../ui/loading';
+import GridLines from 'react-gridlines';
 // import topoId from './topoId';
 import { socket } from '../../socket/socket';
 import {
@@ -27,7 +28,7 @@ import { Input } from '@/components/ui/input';
 export default function Canvas(props) {
     const dispatch = useDispatch();
     const updateXarrow = useXarrow();
-    const [loading,setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [mouse, setMouse] = useState({})
     const tool = useSelector(state => state.tool);
     const [link, setLink] = useState({ from: null, to: null });
@@ -37,12 +38,12 @@ export default function Canvas(props) {
     const [co, setCo] = useState();
     const [la, setLa] = useState();
     const [links, setLinks] = useState();
-    const {topoId} = props
+    const { topoId } = props
     const topoDevices = useSelector(state => state.topo);
-   
+
     const [topo, setTopo] = useState(topoDevices)
     socket.on("topoChange", (data) => {
-        if (data.room == topoId){
+        if (data.room == topoId) {
             setTopo(data.data);
             // console.log("Damn");
         }
@@ -96,64 +97,67 @@ export default function Canvas(props) {
     }, [link]);
     return (
         <>
-           {
-            loading && <Loading/>
-           }
-        <div className={`bg-background w-full h-full absolute overflow-hidden top-0 z-0${tool === "link" ? " cursor-crosshair" : ""} ${tool === "delete" ? "cursor-crosshair" : ""} ${tool === "addText" ? " cursor-text" : ""}`} >
-            <div onMouseMove={updateXarrow} className='relative'>
-                {
-                    pc && pc.map((item) => {
-                        return (
-                            <PC key={item._id} id={item.name} name={item.name} topoId = {topoId} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></PC>
-                        )
-                    })
-                }
-                {
-                    sw && sw.map((item) => {
-                        return (
-                            <Switch key={item._id} id={item.name} name={item.name} topoId={topoId} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Switch>
-                        )
-                    })
-                }
-                {
-                    ro && ro.map((item) => {
-                        return (
-                            <Routers key={item._id} id={item.name} name={item.name} topoId={topoId} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Routers>
-                        )
-                    })
-                }
-                {
-                    co && co.map((item) => {
-                        return (
-                            <Controller key={item._id} id={item.name} name={item.name} topoId={topoId} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Controller>
-                        )
-                    })
-                }
-                {
-                    la && la.map((item) => {
-                        return (
-                            <Laptops key={item._id} id={item.name} name={item.name} topoId={topoId} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Laptops>
-                        )
-                    })
-                }
-                    
-                {
-                    links && links.map((item) => {
-                        return (
-                            <Xarrow
-                            key={`${item._id}`}
-                            start={item.link.from}
-                            end={item.link.to}
-                            lineColor="white"
-                            headSize={0}
-                            strokeWidth={1}
-                                curveness={0} animation={1}
-                            />
-                        )
-                    })
-                }
-            </div>
-        </div>
-                </>
+            {
+                loading && <Loading />
+            }
+
+                <div className={`bg-background w-full h-full absolute overflow-hidden top-0 z-0${tool === "link" ? " cursor-crosshair" : ""} ${tool === "delete" ? "cursor-crosshair" : ""} ${tool === "addText" ? " cursor-text" : ""}`} >
+                <GridLines className="grid-area w-full h-screen bg-background" cellWidth={30} strokeWidth={1.5} cellWidth2={1} lineColor2={"black"} >
+                    <div onMouseMove={updateXarrow} className='relative'>
+                        {
+                            pc && pc.map((item) => {
+                                return (
+                                    <PC key={item._id} id={item.name} ipAddress={item.ipAddress} x={item.position.x} y={item.position.y} gateWayComming={item.defaultGateWay} name={item.name} topoId={topoId} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></PC>
+                                )
+                            })
+                        }
+                        {
+                            sw && sw.map((item) => {
+                                return (
+                                    <Switch key={item._id} id={item.name} name={item.name} x={item.position.x} y={item.position.y} topoId={topoId} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Switch>
+                                )
+                            })
+                        }
+                        {
+                            ro && ro.map((item) => {
+                                return (
+                                    <Routers key={item._id} id={item.name} name={item.name} ipAddress={item.ipAddress} x={item.position.x} y={item.position.y} topoId={topoId} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Routers>
+                                )
+                            })
+                        }
+                        {
+                            co && co.map((item) => {
+                                return (
+                                    <Controller key={item._id} id={item.name} x={item.position.x} y={item.position.y} ipAddress={item.ipAddress} name={item.name} topoId={topoId} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Controller>
+                                )
+                            })
+                        }
+                        {
+                            la && la.map((item) => {
+                                return (
+                                    <Laptops key={item._id} ipAddress={item.ipAddress} x={item.position.x} y={item.position.y} gateWayComming={item.defaultGateWay} id={item.name} name={item.name} topoId={topoId} itemId={item._id} deleteHandler={() => deleteAction(item._id)} actionHandler={() => actionSelect(item._id, item.name, item.type)}></Laptops>
+                                )
+                            })
+                        }
+
+                        {
+                            links && links.map((item) => {
+                                return (
+                                    <Xarrow
+                                        key={`${item._id}`}
+                                        start={item.link.from}
+                                        end={item.link.to}
+                                        lineColor="white"
+                                        headSize={0}
+                                        strokeWidth={1}
+                                        curveness={0} animation={1}
+                                    />
+                                )
+                            })
+                        }
+                    </div>
+            </GridLines>
+                </div>
+        </>
     )
 }
