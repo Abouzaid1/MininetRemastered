@@ -17,10 +17,7 @@ function createWindow() {
             ? 'http://localhost:5000'
             : `file://${path.join(__dirname, '../dist/index.html')}`
     );
-
-    if (isDev) {
-        mainWindow.webContents.openDevTools();
-    }
+   mainWindow.removeMenu()
 }
 
 app.on('ready', createWindow);

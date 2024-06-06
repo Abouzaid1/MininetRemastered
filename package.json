@@ -9,7 +9,7 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "electron-dev": "concurrently \"vite\" \"wait-on http://localhost:5000 && electron .\"",
+    "electron-dev": "concurrently 'vite' 'wait-on http://localhost:5000/ && electron . --no-sandbox'",
     "electron-pack": "electron-builder"
   },
   "build": {
