@@ -6,16 +6,17 @@ def install_node_python():
     try:
         # Install Node.js
         subprocess.run(['sudo', 'apt', 'update'], check=True)
+        #subprocess.run(['sudo', 'apt', 'remove','--purge','nodejs','npm'], check=True)
+        #subprocess.run(['sudo', 'apt', 'autoremove'], check=True)
+        subprocess.run('curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -', check=True, shell=True)
         print("***********************************************Updated")
-        # subprocess.run('curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -', check=True, shell=True)
         subprocess.run(['sudo', 'apt', 'install', '-y', 'nodejs'], check=True)
         print("***********************************************Nodeinstalled")
-        subprocess.run(['sudo', 'apt', 'install', '-y', 'npm'], check=True)
+        subprocess.run(['sudo', 'apt', 'install', 'npm'], check=True)
         print("***********************************************NPM installed")
         subprocess.run(['sudo', 'apt', 'install', '-y', 'python3'], check=True)
         print("***********************************************Python installed")
-        subprocess.run(['sudo', 'apt', 'upgrade', 'nodejs'], check=True)
-        print("***********************************************Node Update")
+        
         os.umask(0)
         mininet_dir = "./mininet"
         if not os.path.exists(mininet_dir):
@@ -26,7 +27,7 @@ def install_node_python():
         if not os.path.exists("LocalMininetSockets"):
             # Clone the Mininet repository if the directory does not exist
             os.umask(0)
-            subprocess.run(["git", "clone", "https://github.com/mininet/LocalMininetSockets.git", "LocalMininetSockets"],   check=True)
+            subprocess.run(["git", "clone", "https://github.com/abouzaid1/LocalMininetSockets.git", "LocalMininetSockets"],   check=True)
         print("LocalSockets done")
         subprocess.run(['sudo', 'apt-get', 'install', '-y', 'mininet'], check=True)
         # Create and activate a virtual environment (optional, but recommended)
@@ -42,11 +43,16 @@ def install_node_python():
         # If using bash 
         os.umask(0)
         subprocess.run(['bash', '-c', f'source {activation_script} && pip install python-socketio mininet'])
+        subprocess.run(['sudo', 'apt', 'upgrade', 'nodejs'], check=True)
+        subprocess.run(['sudo', 'apt', 'install', 'curl'], check=True)
+        
+        print("***********************************************Node Update")
         os.umask(0)
         subprocess.run(['npm', 'install'], check=True)
         print("***********************************************Node.js, Python 3, python-socketio, and Mininet have been installed successfully.")
+        
     except subprocess.CalledProcessError as e:
-        print("Please run this script with appropriate privileges.")
+        print("Read the documentation")
 
 if __name__ == "__main__":
     install_node_python()
