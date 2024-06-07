@@ -7,11 +7,15 @@ def install_node_python():
         # Install Node.js
         subprocess.run(['sudo', 'apt', 'update'], check=True)
         print("***********************************************Updated")
-        subprocess.run('curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -', check=True, shell=True)
+        # subprocess.run('curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -', check=True, shell=True)
         subprocess.run(['sudo', 'apt', 'install', '-y', 'nodejs'], check=True)
+        print("***********************************************Nodeinstalled")
         subprocess.run(['sudo', 'apt', 'install', '-y', 'npm'], check=True)
+        print("***********************************************NPM installed")
         subprocess.run(['sudo', 'apt', 'install', '-y', 'python3'], check=True)
-        print("***********************************************Node and Python and NPM installed")
+        print("***********************************************Python installed")
+        subprocess.run(['sudo', 'apt', 'upgrade', 'nodejs'], check=True)
+        print("***********************************************Node Update")
         os.umask(0)
         mininet_dir = "./mininet"
         if not os.path.exists(mininet_dir):
@@ -31,6 +35,7 @@ def install_node_python():
         subprocess.run(['sudo', 'apt', 'install', 'python3-venv'], check=True)
         os.umask(0)
         subprocess.run(["python3", "-m", "venv", venv_dir], check=True)
+        
         # Activate the virtual environment based on your shell (adjust for other shells)
         os.umask(0)
         activation_script = os.path.join(venv_dir, 'bin', 'activate')
