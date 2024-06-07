@@ -9,6 +9,7 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
+            webSecurity: false
         }
     });
 
@@ -17,7 +18,7 @@ function createWindow() {
             ? 'http://localhost:5000'
             : `file://${path.join(__dirname, '../dist/index.html')}`
     );
-   mainWindow.removeMenu()
+    mainWindow.removeMenu()
 }
 
 app.on('ready', createWindow);

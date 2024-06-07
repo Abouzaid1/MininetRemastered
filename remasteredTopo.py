@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import requests
+import asyncio
 from mininet.net import Mininet
 from mininet.topo import Topo
 from mininet.node import OVSSwitch, Controller
@@ -40,25 +42,25 @@ def createnetwork():
         net.pingAll()
         time.sleep(5)
     # net.stop()
-sio = socketio.Client()
-# @sio.event
-# def connect():
-#     print('Connected to server')
+print("test")
+sio = socketio.AsyncClient()
+@sio.event
+def connect():
+     print('Connected to server')
 
-# @sio.event
-# def disconnect():
-#     print('Disconnected from server')
-
-# @sio.on('message')
-# def on_message(data):
-#     print('Message from server:', data)
-@sio.on('joinTopo')
-def on_joinTopo(data):
-    print('topo', data)
+@sio.on('send')
+def on_send(data):
+    print('topo')
+    
+def response(data):
+    print('topo')
     #createnetwork()
+async def main():
+    try:
+        await sio.connect('http://0.0.0.0:8080')
+        await sio.wait()
+    except Exception as e:
+        print('Error:', e)
 
-sio.connect('http://localhost:6000')
-sio.wait()
 if __name__ == '__main__':
-    setLogLevel('info')
-    createnetwork()
+    asyncio.run(main())

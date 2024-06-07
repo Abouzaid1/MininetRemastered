@@ -18,6 +18,7 @@ export default function Tools() {
   const divIconClass = "p-2 px-3 my-2 flex items-center justify-center box-content rounded-[12px] hover:bg-background transition cursor-pointer"
   const clickedIcon = useSelector(state => state.tool)
   const ping = () => {
+    socketMininetPython.connect();
     socketMininetPython.emit("joinTopo", {
       topo
     })
