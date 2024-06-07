@@ -42,7 +42,7 @@ def install_node_python():
         activation_script = os.path.join(venv_dir, 'bin', 'activate')
         # If using bash 
         os.umask(0)
-        subprocess.run(['bash', '-c', f'source {activation_script} && pip install python-socketio mininet'])
+        subprocess.run(['bash', '-c', f'source {activation_script} && pip install python-socketio mininet requests aiohttp'])
         subprocess.run(['sudo', 'apt', 'upgrade', 'nodejs'], check=True)
         subprocess.run(['sudo', 'apt', 'install', 'curl'], check=True)
         
