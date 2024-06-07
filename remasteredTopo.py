@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from mininet.net import Mininet
 from mininet.topo import Topo
 from mininet.node import OVSSwitch, Controller
@@ -56,7 +57,7 @@ def on_joinTopo(data):
     print('topo', data)
     #createnetwork()
 
-sio.connect('http://localhost:5000')
+sio.connect('http://localhost:6000')
 sio.wait()
 if __name__ == '__main__':
     setLogLevel('info')
