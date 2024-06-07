@@ -16,10 +16,12 @@ def install_node_python():
         mininet_dir = "./mininet"
         if not os.path.exists(mininet_dir):
             # Clone the Mininet repository if the directory does not exist
+            os.umask(0)
             subprocess.run(["git", "clone", "https://github.com/mininet/mininet.git", mininet_dir],   check=True)
         print("***********************************************Mininet Done")
         if not os.path.exists("LocalMininetSockets"):
             # Clone the Mininet repository if the directory does not exist
+            os.umask(0)
             subprocess.run(["git", "clone", "https://github.com/mininet/LocalMininetSockets.git", "LocalMininetSockets"],   check=True)
         print("LocalSockets done")
         subprocess.run(['sudo', 'apt-get', 'install', '-y', 'mininet'], check=True)
