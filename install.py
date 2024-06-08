@@ -43,7 +43,7 @@ def install_node_python():
         # If using bash 
         os.umask(0)
         subprocess.run(['bash', '-c', f'source {activation_script} && pip install python-socketio mininet requests aiohttp'])
-        subprocess.run(['sudo', 'apt', 'upgrade', 'nodejs'], check=True)
+        subprocess.run(['sudo', 'apt-get', 'upgrade', 'nodejs'], check=True)
         subprocess.run(['sudo', 'apt', 'install', 'curl'], check=True)
         
         print("***********************************************Node Update")
