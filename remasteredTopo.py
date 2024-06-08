@@ -15,6 +15,7 @@ def connect():
 
 @sio.on('send')
 def on_send(data):
+    print(data)
     subprocess.run(['sudo', 'python3', 'toporun.py', data], check=True)
     
 def response(data):
