@@ -4,7 +4,7 @@ import asyncio
 import time
 import subprocess
 import socketio
-
+import json
 
     # net.stop()
 print("test")
@@ -15,11 +15,15 @@ def connect():
 
 @sio.on('send')
 def on_send(data):
-    print(data)
-    subprocess.run(['sudo', 'python3', 'toporun.py', data], check=True)
+   
+    data_json = json.dumps(data)
+    datastring = ",".join(str(value) for value in data.values())
+    subprocess.run(['sudo', 'mn', '-c'])
+    subprocess.run(['sudo', 'python3', 'toporun.py', data_json])
     
 def response(data):
     print('topo')
+    
     #createnetwork()
 async def main():
     try:

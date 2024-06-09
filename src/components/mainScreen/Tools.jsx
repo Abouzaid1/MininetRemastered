@@ -9,6 +9,8 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { getToolName } from '@/slices/toolSlice';
 import { socketMininetPython } from '@/socket/socket';
+import { getTopo } from '@/slices/topoSlice';
+import topoId from './topoId';
 export default function Tools() {
   const dispatch = useDispatch()
   const topo = useSelector(state => state.topo)
@@ -19,6 +21,7 @@ export default function Tools() {
   const clickedIcon = useSelector(state => state.tool)
   const ping = () => {
     socketMininetPython.connect();
+    dispatch(getTopo(topoId))
     socketMininetPython.emit("joinTopo", {
       topo
     })

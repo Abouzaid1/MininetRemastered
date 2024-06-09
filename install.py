@@ -60,6 +60,9 @@ def install_node_python():
             subprocess.run(["git", "clone", "https://github.com/abouzaid1/LocalMininetSockets.git", "LocalMininetSockets"],   check=True)
         print("LocalSockets done")
         subprocess.run(['sudo', 'apt-get', 'install', '-y', 'mininet'], check=True)
+        subprocess.run(['sudo', 'apt-get', 'install', '-y', 'mininet'], check=True)
+        subprocess.run(['sudo', 'apt-get', 'install', 'openvswitch-testcontroller'], check=True)
+        subprocess.run(['sudo', 'ln', '/usr/bin/ovs-testcontroller', '/usr/bin/controller'], check=True)
         # Create and activate a virtual environment (optional, but recommended)
         venv_dir = 'venv'
         os.umask(0)

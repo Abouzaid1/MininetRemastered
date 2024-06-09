@@ -1,47 +1,54 @@
 from mininet.net import Mininet
 from mininet.topo import Topo
-from mininet.node import OVSSwitch, Controller
+from mininet.node import OVSSwitch,Switch
 from mininet.log import setLogLevel
 from mininet.node import OVSKernelSwitch, UserSwitch
 from mininet.node import CPULimitedHost, Host, Node
 from mininet.node import Controller, RemoteController, OVSController
 from mininet.cli import CLI
 import sys
+import json
+import csv 
 
-
-arguments = sys.argv[1:]
 def run():
-
+    arguments = sys.argv[1:]
     if len(arguments) > 0:
-        first_argument = arguments[0]
-        print("First argument:", first_argument)
+        print("test")
+        arguments = sys.argv[1]
+        print("test2")
+        data = json.loads(arguments)
+        print("test3")
+        topo_dict = data['topo']
+        print("First argument:", topo_dict)
         class MyTopology(Topo):
             def build(self):
                 # Add switches
-                s1 = self.addSwitch('s1')
-                s2 = self.addSwitch('s2')
-
-                # Add hosts
-                h1 = self.addHost('h1', cls=Host, ip='192.168.10.1', defaultRoute='via 192.168.10.0')
-                h2 = self.addHost('h2', cls=Host, ip='192.168.10.2', defaultRoute='via 192.168.10.0')
-                h3 = self.addHost('h3', cls=Host, ip='192.168.20.3', defaultRoute='via 192.168.20.0')
-
-                # Add links
-                self.addLink(h1, s1)
-                self.addLink(s1, h2)
-                self.addLink(s2, h3)
-                self.addLink(s1, s2)
-
+                switches = {}
+                for sw in topo_dict.get('sws', []):
+                    switches[sw['name']] = self.addSwitch(sw['name'])
+                
+        # Add routers (if any)
+                routers = {}
+                for router in topo_dict.get('routers', []):
+                    routers[router['name']] = self.addNode(router['name'], cls=Host)
+        
+        # Add hosts (PCs)
+                hosts = {}
+                for pc in topo_dict.get('pcs', []):
+                    hosts[pc['name']] = self.addHost(pc['name'])
+                for link in topo_dict.get('links', []):
+                    self.addLink(link['link']['from'], link['link']['to'])
+                    print(link['link']['from'], link['link']['to'])
         def createnetwork():
+            print(topo_dict.get('sws', []))
             topo = MyTopology()
-            net = Mininet(topo=topo, switch=OVSSwitch, controller=Controller)
-            # net.get('s1').start([])
+            net = Mininet(topo=topo, switch=OVSSwitch,controller=OVSController)
             net.start()
             net.pingAll()
         createnetwork()
 
     else:
-        print("No arguments provided.")
+       print("#o arguments p#ovided.")
 
 
 if __name__ == '__main__':
