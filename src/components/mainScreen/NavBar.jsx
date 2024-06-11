@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import image from "../../assets/image (1).png"
+import image from "../../assets/image.png"
 import { UserButton, useSession } from '@clerk/clerk-react'
 import { socket } from '../../socket/socket';
 export default function NavBar() {

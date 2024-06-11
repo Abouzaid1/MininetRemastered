@@ -46,13 +46,13 @@ export default function HomePage() {
     return (
         <>
             {
-                isSignedIn && <div className='text-white p-5'>
+                isSignedIn && <div className='text-white p-5 max-w-[1800px] overflow-x-scroll'>
                     <h1 className='font-semibold text-[30px]'>Your Current topologies</h1>
                     {/* the user current topologies */}
                     <div className='p-5 flex gap-5'>
                         <Dialog>
                             <DialogTrigger asChild>
-                                <div className=' flex justify-center hover:outline-dashed hover:outline-primary hover:outline-[2px] mx-2  hover:bg-background bg-secondary transition cursor-pointer items-center rounded-xl w-[200px] h-[200px]'>
+                                <div className=' flex justify-center hover:outline-dashed hover:outline-primary hover:outline-[2px] mx-2   hover:bg-background bg-secondary transition cursor-pointer items-center rounded-xl w-[200px] h-[200px]'>
                                     <div>
                                         <Plus size={100} className='w-[100px]' />
                                         <p></p>

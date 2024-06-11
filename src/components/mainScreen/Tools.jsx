@@ -50,16 +50,6 @@ export default function Tools() {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <div className={`${divIconClass} + ${clickedIcon === "addText" ? "bg-background" : ""}`} onClick={() => { dispatch(getToolName("addText")) }}>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger><File className={iconClass} size={size} strokeWidth={strokeWidth} /></TooltipTrigger>
-              <TooltipContent>
-                <p>Add Text</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
         <hr />
         <div className={`${divIconClass} + ${clickedIcon === "zoomIn" ? "bg-background" : ""}`} onClick={() => { dispatch(getToolName("zoomIn")) }}>
           <TooltipProvider>

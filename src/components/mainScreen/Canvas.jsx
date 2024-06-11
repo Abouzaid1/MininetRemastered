@@ -100,7 +100,6 @@ export default function Canvas(props) {
             {
                 loading && <Loading />
             }
-
             <div className={`bg-background w-full h-full absolute overflow-hidden top-0 z-0${tool === "link" ? " cursor-crosshair" : ""} ${tool === "delete" ? "cursor-crosshair" : ""} ${tool === "addText" ? " cursor-text" : ""}`} >
                 <GridLines className="grid-area w-full h-screen bg-background" cellWidth={30} strokeWidth={1.5} cellWidth2={1} lineColor2={"black"} >
                     <div onMouseMove={updateXarrow} className='relative'>

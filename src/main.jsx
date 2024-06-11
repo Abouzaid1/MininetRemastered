@@ -12,6 +12,7 @@ import { dark, neobrutalism } from '@clerk/themes';
 if (!PUBLISHABLE_KEY) {
     throw new Error("Missing Publishable Key")
 }
+document.title = "Mininet Remastered";
 ReactDOM.createRoot(document.getElementById('root')).render(
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} appearance={{
         baseTheme: [dark],

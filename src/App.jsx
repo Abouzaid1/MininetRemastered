@@ -12,6 +12,7 @@ import { SignIn,SignUp, useSession } from "@clerk/clerk-react";
 import Auth from "./pages/Auth";
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 function App() {
+  
   if (!PUBLISHABLE_KEY) {
     throw new Error("Missing Publishable Key")
   }
